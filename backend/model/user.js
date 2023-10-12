@@ -14,7 +14,7 @@ const userModel = mongoose.Schema({
         required: true
     },
     tel: {
-        type: Number,
+        type: String,
         required: true
     },
     password: {
@@ -49,13 +49,11 @@ const userModel = mongoose.Schema({
             ref: "Commentary"
         }
     ], 
-    images: [
+    images: 
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Images"
         }
-    ]
-
 })
 
 module.exports = mongoose.model("User", userModel)

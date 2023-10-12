@@ -12,3 +12,4 @@
 [ ] Le sitter n'a pas le droit de dépasser 3 chien gardés en meme temps
 [ ] Sur le profil du sitter: Nom Prénom num tel email, photo profil, note, avis race chien
 [ ] Si le sitter est nouveau affiché un badge nouveau pendant 1 mois 
+[ ] Le sitter, demandeur et admin doivent être capable de se connecter avec leur username et password

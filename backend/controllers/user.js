@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken");
 
 const createUser = async (req, res) => {
-    const {email, password,username,  tel, name, lastname, adress, roles} = req.body;
+    const {email, password, username,  tel, name, lastname, adress, roles} = req.body;
     if(!email || !password || !username || !tel || !name || !lastname || !adress){
         return res.status(400).json({message: "All fields are required!"})
     }
@@ -25,7 +25,7 @@ const createUser = async (req, res) => {
             name,
             lastname,
             email,
-            hashedPassword,
+            password: hashedPassword,
             username,
             tel,
             adress, 
@@ -34,7 +34,7 @@ const createUser = async (req, res) => {
 
         const result = await newUser.save()
         console.log(result);
-        return res.status(201).json({result})
+        return res.status(201).json({message: "User created sucessfully", result})
 
     }catch(err){
         console.log("Error in userController, createUser: ", err);
