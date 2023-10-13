@@ -2,6 +2,10 @@ const User = require("../model/user")
 const Image = require("../model/Images")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken");
+const path = require('path');
+// const compressOptions = require("../config/compressImage.config")
+// const imageCompression = require("browser-image-compression");
+
 
 const createUser = async (req, res) => {
     const { email, password, username, tel, name, lastname, adress, roles } = req.body;
@@ -79,9 +83,13 @@ const login = async (req, res) => {
 const uploadImage = async (req, res) => {
     const { userId } = req.params
     const image = req.file
-    console.log(req);
+
     if (!image) {
         return res.status(400).json({ message: "A file must be uploaded!" })
+    }
+
+    if (image.size >= 4000000) {
+        return res.status(400).json({ message: "The image size is more than 4MB!" })
     }
     if (!userId) {
         return res.status(400).json({ message: "An Id must be provided as a parameter!" })
@@ -105,10 +113,49 @@ const uploadImage = async (req, res) => {
         userFound.images.push(newImage._id)
         await userFound.save()
 
-        return res.status(201).json({message: "Image successfully updated !"})
-    } catch (err) {
+        return res.status(201).json({ message: "Image successfully uploaded !" })
+
+    }
+    catch (err) {
         console.log("Error in userController, uploadImage: ", err);
-        return res.status(500).json({ err })
+        return res.status(500).json(err)
+    }
+
+}
+
+const getImage = async (req, res) => {
+    const { userId } = req.params;
+
+
+    if (!userId) {
+        return res.status(400).json({ message: "User ID is required as a param!" })
+    }
+
+    try {
+        const userFound = await User.findOne({ _id: userId }).exec()
+
+        if (!userFound) {
+            return res.status(404).json({ message: "User not found!" })
+        }
+
+        const image = userFound.images[userFound.images.length - 1]
+
+        if (!image) {
+            return res.status(404).json({ message: "Please upload an image first!" })
+        }
+
+        const imageFound = await Image.findOne({ _id: image._id }).exec()
+
+        if (!imageFound) {
+            return res.status(404).json({ message: "No image found!" })
+        }
+
+        const imagePath = path.join(__dirname,"..", 'images', imageFound.image.name)
+
+        return res.status(200).sendFile(imagePath)
+
+    } catch (err) {
+        return res.status(500).json({error: "Error in getImage", err})
     }
 
 
@@ -116,4 +163,4 @@ const uploadImage = async (req, res) => {
 
 
 
-module.exports = { login, createUser, uploadImage }
+module.exports = { login, createUser, uploadImage, getImage }
