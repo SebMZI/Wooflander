@@ -157,10 +157,19 @@ const getImage = async (req, res) => {
     } catch (err) {
         return res.status(500).json({error: "Error in getImage", err})
     }
+}
+
+const addAnimal = async (req, res) =>{
+    const {userId} = req.params
+
+    if(!userId){
+        return res.status(400).json({message: "Please provide an userID!"})
+    }
+
+
 
 
 }
 
 
-
-module.exports = { login, createUser, uploadImage, getImage }
+module.exports = { login, createUser, uploadImage, getImage, addAnimal }

@@ -37,7 +37,7 @@ const userModel = mongoose.Schema({
     animals:[ 
         {
             type: mongoose.Schema.Types.ObjectId, 
-            ref: "Animals"
+            ref: "Animal"
         }
     ],
     note: {
