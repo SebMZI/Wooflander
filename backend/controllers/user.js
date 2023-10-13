@@ -1,5 +1,6 @@
 const User = require("../model/user")
 const Image = require("../model/Images")
+const Animal = require("../model/Animal")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken");
 const path = require('path');
@@ -150,25 +151,71 @@ const getImage = async (req, res) => {
             return res.status(404).json({ message: "No image found!" })
         }
 
-        const imagePath = path.join(__dirname,"..", 'images', imageFound.image.name)
+        const imagePath = path.join(__dirname, "..", 'images', imageFound.image.name)
 
         return res.status(200).sendFile(imagePath)
 
     } catch (err) {
-        return res.status(500).json({error: "Error in getImage", err})
+        return res.status(500).json({ error: "Error in getImage", err })
     }
 }
 
-const addAnimal = async (req, res) =>{
-    const {userId} = req.params
+const addAnimal = async (req, res) => {
+    const { userId } = req.params
+    const image = req.file
+    const { numProprio, numVeto, age, entente, race, caractere, name } = req.body
 
-    if(!userId){
-        return res.status(400).json({message: "Please provide an userID!"})
+    if (!userId) {
+        return res.status(400).json({ message: "Please provide an userID!" })
+    }
+    if (!numProprio || !numVeto || !age || !entente || !race || !caractere) {
+        return res.status(400).json({ message: "All fields are required!" })
+    }
+    // if (req.file.size >= 4000000) {
+    //     return res.status(400).json({ message: "The image size is more than 4MB!" })
+    // }
+
+    const userFound = await User.findOne({ _id: userId }).exec()
+
+    if (!userFound) {
+        return res.status(404).json({ message: "User not found!" })
     }
 
+    try {
+        const newAnimal = new Animal({
+            proprio: userId,
+            name,
+            numVeterinaire: numVeto,
+            numProprio,
+            age,
+            entente,
+            race,
+            caractere
+        })
 
+        await newAnimal.save()
 
+        if(image){
+            const animalImage = new Image({
+                image: {
+                    name: req.file.filename,
+                    path: req.file.path
+                },
+                userId: newAnimal._id
+            })
+    
+            await animalImage.save()
+        }
 
+        userFound.animals.push(newAnimal._id)
+        await userFound.save()
+      
+
+        return res.status(201).json({ message: "Animal successfully created!" })
+
+    } catch (err) {
+        return res.status(500).json({ error: err })
+    }
 }
 
 

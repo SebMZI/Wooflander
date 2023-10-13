@@ -5,6 +5,10 @@ const animalSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
+    name:{
+        type: String,
+        required: true
+    },
     numVeterinaire: {
         type: String,
         required: true
@@ -28,7 +32,6 @@ const animalSchema = mongoose.Schema({
     caractere: [
         {
             type: String,
-            required: true
         }
     ],
     image: {
