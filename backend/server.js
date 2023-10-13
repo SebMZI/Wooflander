@@ -9,8 +9,16 @@ const bodyParser = require("body-parser")
 DbConnect()
 
 app.use(express.json())
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use("/user", require("./routes/user"));
+
+
+// In case of an error
+app.all("*", (req, res)=>{
+    return res.status(404).json({error: "404 Not found!"})
+})
+
 
 // Server listening on PORT
 app.listen(PORT, () => {

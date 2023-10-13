@@ -49,11 +49,13 @@ const userModel = mongoose.Schema({
             ref: "Commentary"
         }
     ], 
-    images: 
+    images: [ 
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Images"
+            ref: "Image",
         }
+    ]
+        
 })
 
 module.exports = mongoose.model("User", userModel)
