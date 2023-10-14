@@ -4,31 +4,37 @@ import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const handleCheckout = async (e) => {
+    e.preventDefault()
+    try{
+      const response = await fetch("http://localhost:3500/stripe/createCheckout", {
+        method: "POST",
+      })
+     const data = await response.json()
+     if (response.status === 200) {
+      console.log("Fetch correctly");
+      window.location.href = data.sessionUrl; // Rediriger l'utilisateur vers l'URL reçue
+    } else {
+      console.error("Failed to fetch");
+    }
+      
+    }catch(err){
+      console.log(err);
+    }
+  }
+
+
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+    <div>
+      <form onSubmit={(e)=> handleCheckout(e)}>
+        {/* Add a hidden field with the lookup_key of your Price */}
+        <input type="hidden" name="lookup_key" value="price_1O17VxKAfQUpwzxoa4noTpy5" />
+        <button id="checkout-and-portal-button" type="submit">
+          Checkout
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+      </form>
+    </div>
   )
 }
 

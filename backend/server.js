@@ -1,5 +1,6 @@
 require("dotenv").config()
 const express = require("express")
+const cors = require('cors')
 const app = express()
 const PORT = process.env.PORT || 3500
 const DbConnect = require("./config/dbConnect")
@@ -7,12 +8,13 @@ const bodyParser = require("body-parser")
 
 // Function to connect to DB
 DbConnect()
+app.use(cors())
 
 app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/user", require("./routes/user"));
-
+app.use("/stripe", require("./routes/stripe"))
 
 // In case of an error
 app.all("*", (req, res)=>{
