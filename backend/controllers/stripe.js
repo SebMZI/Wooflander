@@ -1,25 +1,23 @@
 const stripe = require('stripe')(process.env.SK_TEST)
-
+const express = require('express');
+const app = express();
+const getRawBody = require('raw-body')
 const DOMAIN = "http://localhost:5173"
 
+
 const createCheckoutSession = async (req, res) => {
-    // const prices = await stripe.prices.list({
-    //     lookup_keys: [req.body.lookup_key],
-    //     expand: ['data.product']
-    // })
     try {
         const session = await stripe.checkout.sessions.create({
             billing_address_collection: 'auto',
             payment_method_types: ['card', "paypal", "sepa_debit"],
             line_items: [
                 {
-                    // price: prices?.data[0]?.id,
                     price: "price_1O17VxKAfQUpwzxoa4noTpy5",
                     quantity: 1,
                 }
             ],
             mode: 'subscription',
-            success_url: `${DOMAIN}/?success=true&session_id={CHECKOUT_SESSION_ID}`,
+            success_url: `${DOMAIN}/success?success=true&session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${DOMAIN}?canceled=true`,
             automatic_tax: { enabled: true },
         })
@@ -47,70 +45,58 @@ const createPortal = async (req, res) => {
 }
 
 const webhook = async (req, res) => {
-
-    let event = req.body;
-    // Replace this endpoint secret with your endpoint's unique secret
-    // If you are testing with the CLI, find the secret by running 'stripe listen'
-    // If you are using an endpoint defined with the API or dashboard, look in your webhook settings
-    // at https://dashboard.stripe.com/webhooks
-    const endpointSecret = 'whsec_caibGtVDs2uecPiBLLz15OYjzdIF1cze';
-    // Only verify the event if you have an endpoint secret defined.
-    // Otherwise use the basic event deserialized with JSON.parse
-    if (endpointSecret) {
-        // Get the signature sent by Stripe
-        const signature = req.headers['stripe-signature'];
-        try {
-            event = stripe.webhooks.constructEvent(
-                req.body,
-                signature,
-                endpointSecret
-            );
-        } catch (err) {
-            console.log(`⚠️  Webhook signature verification failed.`, err.message);
-            return res. sendStatus(400);
-        }
-    }
-    let subscription;
+    const webhookSecret = 'whsec_95ba0732d2069d38c914b8ee2cb43974866b0d79331c977f1d62a66cd265eaea';
+    let event;
     let status;
-    // Handle the event
+
+    try {
+        const sig = req.headers['stripe-signature'];
+        event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
+    } catch (err) {
+        console.log(`Webhook Error: ${err.message}`);
+        return res.status(400).send(`Webhook Error: ${err.message}`);
+
+    }
+    console.log("Event Type: ", event.type);
+
     switch (event.type) {
-        case 'customer.subscription.trial_will_end':
-            subscription = event.data.object;
-            status = subscription.status;
-            console.log(`Subscription status is ${status}.`);
-            // Then define and call a method to handle the subscription trial ending.
-            // handleSubscriptionTrialEnding(subscription);
+        case 'payment_intent.succeeded':
+            paymentSucceed = event.data.object;
+            status = paymentSucceed.status
+            res.status(200).json({success: 'The user payment succeed!', status: status})
             break;
         case 'customer.subscription.deleted':
             subscription = event.data.object;
             status = subscription.status;
             console.log(`Subscription status is ${status}.`);
-            // Then define and call a method to handle the subscription deleted.
-            // handleSubscriptionDeleted(subscriptionDeleted);
+            res.status(204).json({message: "The user subscription has been deleted!", status: status})
             break;
         case 'customer.subscription.created':
             subscription = event.data.object;
             status = subscription.status;
             console.log(`Subscription status is ${status}.`);
-            // Then define and call a method to handle the subscription created.
-            // handleSubscriptionCreated(subscription);
+            res.status(201).json({message: "The user subscription has correctly been setup", status: status})
             break;
         case 'customer.subscription.updated':
             subscription = event.data.object;
             status = subscription.status;
             console.log(`Subscription status is ${status}.`);
-            // Then define and call a method to handle the subscription update.
-            // handleSubscriptionUpdated(subscription);
+            res.status(200).json({message: "The user subscription has correctly been updated", status: status})
+            break;
+        case ' payment_intent.canceled':
+            canceled = event.data.object;
+            status = canceled.status;
+            console.log(`Subscription status is ${status}.`);
+            res.status(204).json({message: "The user subscription has been canceled", status: status})
             break;
         default:
-            // Unexpected event type
-            console.log(`Unhandled event type ${event.type}.`);
+            console.log(`Unhandled event type ${event.type}`);
     }
-    // Return a 200 response to acknowledge receipt of the event
-    res.send();
+
+    res.sendStatus(200)
 }
-      
-      
+
+
 
 
 
