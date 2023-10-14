@@ -54,8 +54,15 @@ const userModel = mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "Image",
         }
-    ]
+    ],
+    new: {
+        type: Boolean,
+        default: true
+    }
         
+},
+{
+    timestamps: true
 })
 
 module.exports = mongoose.model("User", userModel)

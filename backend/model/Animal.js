@@ -34,10 +34,10 @@ const animalSchema = mongoose.Schema({
             type: String,
         }
     ],
-    image: {
+    image: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Image",
-    }
+    }]
 })
 
 module.exports = mongoose.model("Animal", animalSchema)

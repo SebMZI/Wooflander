@@ -7,7 +7,7 @@
 [ ] Le demandeur doit remplir un formulaire à l'inscription par rapport à son chien
 [X] Le demandeur doit pouvoir créer un compte gratuitement avec un email, password, pseudo, nom, prénom, adresse, numéro de tel
 [ ] La carte du chien doit comprendre : Num veterinaire, Num proprio, age, entente chien chat, race et caractère
-[ ] Le denandeur doit pouvoir trier en fonction de quel type de chien le sitter garde
+[ ] Le demandeur doit pouvoir trier en fonction de quel type de chien le sitter garde
 [ ] Le sitter doit pouvoir choisir quel type de chien il souhaite garder
 [ ] Le sitter n'a pas le droit de dépasser 3 chien gardés en meme temps
 [ ] Sur le profil du sitter: Nom Prénom num tel email, photo profil, note, avis race chien

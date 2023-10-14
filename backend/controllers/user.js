@@ -62,7 +62,7 @@ const login = async (req, res) => {
             return res.status(404).json({ message: "No user found!" })
         }
 
-        const isPasswordCorrect = (await bcrypt.compare(password, userFound.password))
+        const isPasswordCorrect = await bcrypt.compare(password, userFound.password)
         if (!isPasswordCorrect) {
             return res.status(400).json({ message: "Password incorrect!" })
         }
@@ -89,7 +89,7 @@ const uploadImage = async (req, res) => {
         return res.status(400).json({ message: "A file must be uploaded!" })
     }
 
-    if (image.size >= 4000000) {
+    if (image?.size >= 4000000) {
         return res.status(400).json({ message: "The image size is more than 4MB!" })
     }
     if (!userId) {
@@ -171,9 +171,9 @@ const addAnimal = async (req, res) => {
     if (!numProprio || !numVeto || !age || !entente || !race || !caractere) {
         return res.status(400).json({ message: "All fields are required!" })
     }
-    // if (req.file.size >= 4000000) {
-    //     return res.status(400).json({ message: "The image size is more than 4MB!" })
-    // }
+    if (image?.size >= 4000000) {
+         return res.status(400).json({ message: "The image size is more than 4MB!" })
+    }
 
     const userFound = await User.findOne({ _id: userId }).exec()
 
@@ -195,7 +195,7 @@ const addAnimal = async (req, res) => {
 
         await newAnimal.save()
 
-        if(image){
+        if (image) {
             const animalImage = new Image({
                 image: {
                     name: req.file.filename,
@@ -203,13 +203,15 @@ const addAnimal = async (req, res) => {
                 },
                 userId: newAnimal._id
             })
-    
+
             await animalImage.save()
+            newAnimal.image.push(animalImage._id)
+            await newAnimal.save()
         }
 
         userFound.animals.push(newAnimal._id)
         await userFound.save()
-      
+
 
         return res.status(201).json({ message: "Animal successfully created!" })
 
@@ -218,5 +220,20 @@ const addAnimal = async (req, res) => {
     }
 }
 
+const getAllSitters =   async (req, res) =>{
+    try{
+        const result = await User.find({roles: {Sitter: 4592}}).select("-password").exec()
+        if(!result){
+            return res.status(404).json({message: "No Sitter found!"})
+        }
+        return res.status(200).json({sitters: result})
 
-module.exports = { login, createUser, uploadImage, getImage, addAnimal }
+    }catch(err){
+        return res.status(500).json({err})
+    }
+}
+
+
+
+
+module.exports = { login, createUser, uploadImage, getImage, addAnimal, getAllSitters }
