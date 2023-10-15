@@ -50,8 +50,9 @@ const webhook = async (req, res) => {
     let status;
 
     try {
-        const sig = req.headers['stripe-signature'];
-        event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
+        const sig = req?.headers['stripe-signature'];
+        console.log(sig);
+        event = stripe.webhooks.constructEvent(req?.body, sig, webhookSecret);
     } catch (err) {
         console.log(`Webhook Error: ${err.message}`);
         return res.status(400).send(`Webhook Error: ${err.message}`);
@@ -59,7 +60,7 @@ const webhook = async (req, res) => {
     }
     console.log("Event Type: ", event.type);
 
-    switch (event.type) {
+    switch (event?.type) {
         case 'payment_intent.succeeded':
             paymentSucceed = event.data.object;
             status = paymentSucceed.status
