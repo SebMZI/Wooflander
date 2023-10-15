@@ -2,7 +2,7 @@ const stripe = require('stripe')(process.env.SK_TEST)
 const express = require('express');
 const app = express();
 const getRawBody = require('raw-body')
-const DOMAIN = "http://localhost:5173"
+const DOMAIN = "http://localhost:3000"
 
 
 const createCheckoutSession = async (req, res) => {

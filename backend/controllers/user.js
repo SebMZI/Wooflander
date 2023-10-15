@@ -9,7 +9,7 @@ const path = require('path');
 
 
 const createUser = async (req, res) => {
-    const { email, password, username, tel, name, lastname, adress, roles } = req.body;
+    const { email, password, username, tel, name, lastname, adress, roles } = JSON.parse(req.body);
     if (!email || !password || !username || !tel || !name || !lastname || !adress) {
         return res.status(400).json({ message: "All fields are required!" })
     }
@@ -50,14 +50,14 @@ const createUser = async (req, res) => {
 }
 
 const login = async (req, res) => {
-    const { username, password } = req.body;
+    const { username, password } = JSON.parse(req.body);
 
     if (!username || !password) {
         return res.status(400).json({ message: "All fields are required!" })
     }
 
     try {
-        const userFound = await User.findOne({ username }).exec();
+        const userFound = await User.findOne({ username: username }).exec();
         if (!userFound) {
             return res.status(404).json({ message: "No user found!" })
         }
@@ -68,12 +68,15 @@ const login = async (req, res) => {
         }
 
         const token = jwt.sign({
-            username: username
+            userInfo: {
+                roles: userFound.roles,
+                username: userFound.username
+            }
         }, process.env.ACCESS_TOKEN_SECRET, {
             expiresIn: "15m"
         })
 
-        return res.status(200).json({ token })
+        return res.status(200).json({message: "Successfully logged in!",  token, roles: userFound.roles })
     } catch (err) {
         console.log("Error in user Controller, login: ", err);
         return res.status(500).json({ error: err })

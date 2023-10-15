@@ -10,9 +10,9 @@ const bodyParser = require("body-parser")
 DbConnect()
 app.use(cors())
 
-
 app.use(express.raw({ type: 'application/json' }));
 app.use("/stripe", require("./routes/stripe"))
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json())
 
