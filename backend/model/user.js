@@ -41,7 +41,8 @@ const userModel = mongoose.Schema({
         }
     ],
     note: {
-        type: Number
+        type: Number,
+        default: null
     },
     commentary: [
         {
