@@ -11,7 +11,18 @@
   align-items: center;
   padding: 20px 20px;
   h1 {
-    color: hsl(21, 80%, 71%);
+    position: relative;
+    color: #fff;
+    font-size: 45px;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 95px;
+      height: 5px;
+      bottom: -5px;
+      left: 0;
+      background-color: hsl(21, 80%, 71%);
+    }
   }
   &-nav {
     .container {
@@ -19,6 +30,7 @@
       flex-direction: row;
       .item {
         margin-left: 25px;
+        font-size: 18px;
       }
     }
   }

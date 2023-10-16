@@ -2,16 +2,49 @@
   min-height: 100vh;
   .hero-section {
     position: relative;
-    height: 700px;
-    background-image: url("../../../assets/anna-dudkova-urs_y9NwFcc-unsplash.jpg");
-    background-size: cover;
-    &::after {
-      content: "";
+    height: 100vh;
+    // background-image: url("../../../assets/anna-dudkova-urs_y9NwFcc-unsplash.jpg");
+    // background-size: cover;
+    .overlay {
       position: absolute;
       inset: 0;
       background-color: #00000060;
       width: 100%;
       height: 100%;
+      z-index: 1;
+    }
+    .content {
+      height: 100%;
+      display: grid;
+      place-content: center;
+      position: relative;
+      z-index: 2;
+    }
+    .hero-title {
+      margin: auto;
+      width: 60%;
+      font-size: 50px;
+      color: #fff;
+    }
+    .hero-subtitle {
+      color: #fff;
+      width: 60%;
+      margin: auto;
+      &:nth-child(4) {
+        margin-top: 10px;
+      }
+    }
+    video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  
+    .owner,
+    .sitter {
+      font-size: 22px;
     }
   }
 }

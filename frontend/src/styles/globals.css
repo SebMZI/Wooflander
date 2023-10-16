@@ -98,6 +98,9 @@ a {
   color: inherit;
   text-decoration: none;
 }
+.text-or {
+  color: hsl(21, 80%, 71%);
+}
 
 @media (prefers-color-scheme: dark) {
   html {
