@@ -52,7 +52,7 @@ const index = () => {
   return (
     <main className="auth-main">
       <div className="auth-bg"></div>
-      <div className="auth-content">
+      <div className="auth-content login-content">
         <h2>LOGIN</h2>
         <form onSubmit={(e) => handleLogin(e)} className="form form-login">
           <label htmlFor="username">Username</label>
@@ -70,7 +70,9 @@ const index = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           {isError ? <p>Failed to login!</p> : null}
-          <button type="submit">Submit</button>
+          <button type="submit" className="btn btn-solid">
+            Submit
+          </button>
         </form>
         <div className="auth-nav">
           <Link href="/">Home</Link>

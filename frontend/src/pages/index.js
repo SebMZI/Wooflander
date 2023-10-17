@@ -2,6 +2,7 @@ import Head from "next/head";
 import { Inter } from "next/font/google";
 import Navbar from "../components/Navbar";
 import dogVideo from "../../public/dog.mp4";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,8 +32,18 @@ export default function Home() {
             <p className="hero-subtitle owner">
               <span className="text-or">Free</span> for the owners !
             </p>
-            <p className="hero-subtitle sitter">9,99€/month for the sitters.</p>
-            <p className="hero-subtitle">Trusted by + 5000 owners</p>
+            <p className="hero-subtitle sitter">
+              Only 9,99€/month for the sitters.
+            </p>
+            <p className="hero-subtitle">Trusted by more than 5000 owners.</p>
+            <div className="btn-container">
+              <button className="btn btn-solid">
+                <Link href="/auth/signup">Signup</Link>
+              </button>
+              <button className="btn btn-light">
+                <Link href="/auth/login">Login</Link>
+              </button>
+            </div>
           </div>
           <div className="overlay"></div>
         </section>

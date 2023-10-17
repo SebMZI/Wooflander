@@ -55,66 +55,85 @@ const index = () => {
 
   return (
     <main className="auth-main">
-      <div className="auth-bg"></div>
-      <div className="auth-content">
+      <div className="signup-bg"></div>
+      <div className="auth-content signup-content">
         <h2>Signup</h2>
         <form onSubmit={(e) => handleSignup(e)} className="form form-signup">
-          <div className="db-col">
+          <div className="inp-content">
             <div>
-              <label htmlFor="name">Name</label>
-              <input
-                type="text"
-                id="name"
-                onChange={(e) => setName(e.target.value)}
-              />
+              <div>
+                <label htmlFor="name">Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="username">Username</label>
+                <input
+                  type="text"
+                  id="username"
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="email">Email</label>
+                <input
+                  type="text"
+                  id="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="pwd">Password</label>
+                <input
+                  type="password"
+                  name="pwd"
+                  id="pwd"
+                  onChange={(e) => setPwd(e.target.value)}
+                />
+              </div>
             </div>
             <div>
-              <label htmlFor="lastname">Lastname</label>
-              <input
-                type="text"
-                id="lastname"
-                onChange={(e) => setLastname(e.target.value)}
-              />
-            </div>
-          </div>
-          <div className="db-col">
-            <div>
-              <label htmlFor="username">Username</label>
-              <input
-                type="text"
-                id="username"
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="email">Email</label>
-              <input
-                type="text"
-                id="email"
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-          </div>
-          <div className="db-col">
-            <div className="item">
-              <label htmlFor="tel">Tel</label>
-              <input
-                type="tel"
-                id="tel"
-                onChange={(e) => setTel(e.target.value)}
-              />
-            </div>
-            <div className="item">
-              <label htmlFor="roles">Role</label>
-              <select
-                name="roles"
-                id="roles"
-                onChange={(e) => setRole(e.target.value)}
-              >
-                <option value=""></option>
-                <option value="Client">Client</option>
-                <option value="Sitter">Sitter</option>
-              </select>
+              <div>
+                <label htmlFor="lastname">Lastname</label>
+                <input
+                  type="text"
+                  id="lastname"
+                  onChange={(e) => setLastname(e.target.value)}
+                />
+              </div>
+
+              <div className="item">
+                <label htmlFor="tel">Tel</label>
+                <input
+                  type="tel"
+                  id="tel"
+                  onChange={(e) => setTel(e.target.value)}
+                />
+              </div>
+              <div className="item">
+                <label htmlFor="roles">Role</label>
+                <select
+                  name="roles"
+                  id="roles"
+                  onChange={(e) => setRole(e.target.value)}
+                >
+                  <option value=""></option>
+                  <option value="Client">Client</option>
+                  <option value="Sitter">Sitter</option>
+                </select>
+              </div>
+              <div>
+                <label htmlFor="confPwd">Confirm Password</label>
+                <input
+                  type="password"
+                  name="confPwd"
+                  id="confPwd"
+                  onChange={(e) => setConfPwd(e.target.value)}
+                />
+              </div>
             </div>
           </div>
 
@@ -125,28 +144,11 @@ const index = () => {
             id="address"
             onChange={(e) => setAddress(e.target.value)}
           />
-          <div className="db-col">
-            <div>
-              <label htmlFor="pwd">Password</label>
-              <input
-                type="password"
-                name="pwd"
-                id="pwd"
-                onChange={(e) => setPwd(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="confPwd">Confirm Password</label>
-              <input
-                type="password"
-                name="confPwd"
-                id="confPwd"
-                onChange={(e) => setConfPwd(e.target.value)}
-              />
-            </div>
-          </div>
+
           <p>{msg}</p>
-          <button type="submit">Create Account</button>
+          <button type="submit" className="btn btn-solid">
+            Signup
+          </button>
         </form>
         <div className="auth-nav">
           <Link href="/">Home</Link>
