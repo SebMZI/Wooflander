@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import {
   selectCurrectRole,
   selectCurrectToken,
+  selectCurrentId,
 } from "@/features/auth/authSlice";
 import { useRouter } from "next/router";
 import ClientAnimals from "@/components/ClientAnimals";
@@ -13,7 +14,10 @@ const index = () => {
   const router = useRouter();
   const roles = useSelector(selectCurrectRole);
   const token = useSelector(selectCurrectToken);
+  const userId = useSelector(selectCurrentId);
   const [onPage, setOnPage] = useState();
+
+  console.log(userId);
 
   useEffect(() => {
     const role = Object?.values(roles)[0];
@@ -27,7 +31,7 @@ const index = () => {
       <main className="client">
         <section className="client-section">
           <div className="container">
-            <h2>Dashboard</h2>
+            <h2 className="dash-title">Dashboard</h2>
             <div className="content">
               <div className="nav">
                 <button className="link" onClick={() => setOnPage("Profile")}>

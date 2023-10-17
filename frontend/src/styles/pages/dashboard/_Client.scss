@@ -13,9 +13,9 @@
     height: 100%;
     position: relative;
 
-    padding: 120px 20px 105px;
+    padding: 120px 40px;
     z-index: 2;
-    h2 {
+    .dash-title {
       color: #fff;
       font-size: 40px;
       font-weight: 400;
@@ -23,31 +23,23 @@
     .content {
       margin-top: 30px;
       border-radius: 10px;
-      padding: 20px;
+      padding: 20px 40px;
       height: 100%;
       width: 100%;
       background-color: #fff;
       overflow: hidden;
       .nav {
         position: relative;
-        &::after {
-          content: "";
-          position: absolute;
-          bottom: -10px;
-          left: 0;
-          right: 0;
-          height: 1px;
-          width: 100%;
-          background-color: rgb(213, 207, 207);
-        }
+
         .link {
           border: none;
           border-radius: 0;
           background: none;
-          padding: 10px 30px;
+          padding: 10px 0px;
           color: #f0a37a;
           position: relative;
           font-size: 16px;
+          margin-right: 15px;
           cursor: pointer;
           transition: border-color 0.3s; // Ajoute une transition pour une animation fluide
 
@@ -58,6 +50,7 @@
             position: absolute;
             bottom: 0;
             left: 0;
+            right: 0;
             background-color: #f0a37a;
             transition: width 0.3s; // Ajoute une transition pour l'animation de la ligne
           }
