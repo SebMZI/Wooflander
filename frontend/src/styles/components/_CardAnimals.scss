@@ -2,13 +2,17 @@
   width: 100%;
   height: 100%;
   position: relative;
+  border-radius: 10px;
+  padding-top: 150%;
   .img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     z-index: 1;
+    border-radius: 10px;
   }
   .animal-title {
+    border-radius: 10px;
     position: absolute;
     bottom: 0;
     z-index: 5;

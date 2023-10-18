@@ -1,14 +1,16 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-};
 
 // next.config.js
 const path = require("path");
 
 module.exports = {
-  ...nextConfig,
-
+  reactStrictMode: true,
+  sassOptions: {
+    includePaths: [path.join(__dirname, "styles")],
+  },
+  images: {
+    domains: ["localhost"],
+  },
   webpack(config, options) {
     config.module.rules.push({
       test: /\.(mp4|webm)$/,

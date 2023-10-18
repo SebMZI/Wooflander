@@ -9,13 +9,14 @@ import {
 } from "@/features/auth/authSlice";
 import { useRouter } from "next/router";
 import ClientAnimals from "@/components/ClientAnimals";
+import UserProfile from "@/components/userProfile";
 
 const index = () => {
   const router = useRouter();
   const roles = useSelector(selectCurrectRole);
   const token = useSelector(selectCurrectToken);
   const userId = useSelector(selectCurrentId);
-  const [onPage, setOnPage] = useState();
+  const [onPage, setOnPage] = useState("Profile");
 
   console.log(userId);
 
@@ -42,6 +43,7 @@ const index = () => {
                 </button>
               </div>
               {onPage === "Animals" && <ClientAnimals />}
+              {onPage === "Profile" && <UserProfile />}
             </div>
           </div>
           <div className="overlay"></div>

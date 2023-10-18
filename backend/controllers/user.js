@@ -4,8 +4,9 @@ const Animal = require("../model/Animal");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const path = require("path");
+const user = require("../model/user");
 const host = "localhost:3500";
-
+const mongoose = require("mongoose");
 // const compressOptions = require("../config/compressImage.config")
 // const imageCompression = require("browser-image-compression");
 
@@ -102,6 +103,54 @@ const login = async (req, res) => {
   } catch (err) {
     console.log("Error in user Controller, login: ", err);
     return res.status(500).json({ error: err });
+  }
+};
+
+const getUserProfile = async (req, res) => {
+  const { userId } = req.params;
+  if (!userId || !mongoose.Types.ObjectId.isValid(userId)) {
+    return res.status(400).json({ message: "Invalid user ID provided!" });
+  }
+
+  try {
+    const result = await User.findOne({ _id: userId })
+      .select("-password")
+      .exec();
+    if (!result) {
+      return res.status(404).json({ message: "No user matches this id!" });
+    }
+    return res.status(200).json({ userInfo: result });
+  } catch (err) {
+    console.log("Error in getUserProfile", err);
+    return res.status(500).json({ error: err });
+  }
+};
+
+const updateProfile = async (req, res) => {
+  const { userId } = req.params;
+  const { username, tel, email } = JSON.parse(req.body);
+  console.log("Username: ", username, "Tel: ", tel, "Email: ", email);
+  console.log(userId);
+  if (!userId) {
+    return res.status(400).json({ message: "No user Id provided!" });
+  }
+
+  try {
+    const userFound = await User.findOne({ _id: userId }).exec();
+    if (!userFound) {
+      return res.status(404).json({ message: "No user matches this id!" });
+    }
+    if (username) userFound.username = username;
+    if (tel) userFound.tel = tel;
+    if (email) userFound.email = email;
+
+    const result = await userFound.save();
+    return res
+      .status(201)
+      .json({ message: "User successfully updated!", result });
+  } catch (err) {
+    console.log("Error in updateUser: ", err);
+    return res.status(500).json({ err });
   }
 };
 
@@ -331,10 +380,12 @@ const getAnimalImage = async (req, res) => {
 module.exports = {
   login,
   createUser,
+  getUserProfile,
   uploadImage,
   getImage,
   addAnimal,
   getAllSitters,
   getAllAnimal,
   getAnimalImage,
+  updateProfile,
 };

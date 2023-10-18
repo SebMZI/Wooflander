@@ -1,0 +1,48 @@
+.user-profile {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  .btn {
+    margin-left: auto;
+  }
+  .btn-container {
+    margin-left: auto;
+    .btn {
+      margin-left: 10px;
+    }
+  }
+  .client-profile {
+    width: 100%;
+    height: 100%;
+    margin-top: 70px;
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    .profile-container {
+      width: 50%;
+      .profile-content {
+        display: flex;
+        flex-direction: column;
+        label {
+          font-size: 18px;
+        }
+        input {
+          height: 30px;
+          width: 70%;
+          font-size: 18px;
+          border: none;
+          border-bottom: 1px solid #000;
+          margin: 5px 0 30px;
+          outline: none;
+          &:-webkit-autofill {
+            -webkit-box-shadow: 0 0 0 30px white inset;
+          }
+          &:disabled {
+            background: none;
+          }
+        }
+      }
+    }
+  }
+}

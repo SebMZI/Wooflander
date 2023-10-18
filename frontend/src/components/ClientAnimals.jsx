@@ -33,7 +33,7 @@ const ClientAnimals = () => {
             <CardAnimals anim={anim} key={index} />
           ))
         )}
-        {!animalsArray ? <p>No animals registered!</p> : null}
+        {!clientAnimals ? <p>No animals registered!</p> : null}
       </div>
     </div>
   );
