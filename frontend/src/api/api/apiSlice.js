@@ -16,6 +16,7 @@ const apiSlice = createApi({
     return fetchBaseQueryConfig;
   },
   endpoints: (builder) => ({}),
+  tagTypes: ["animals"],
   //   prepareHeaders: (headers, { getState }) => {
   //     const token = getState().auth.token;
   //     headers.set("Content-type", "multipart/form-data");

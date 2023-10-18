@@ -4,7 +4,7 @@ const Animal = require("../model/Animal");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const path = require("path");
-const { log } = require("console");
+const host = "localhost:3500";
 
 // const compressOptions = require("../config/compressImage.config")
 // const imageCompression = require("browser-image-compression");
@@ -285,6 +285,49 @@ const getAllSitters = async (req, res) => {
   }
 };
 
+const getAnimalImage = async (req, res) => {
+  const { animalId } = req.params;
+
+  console.log("animalId:", animalId);
+
+  if (!animalId) {
+    return res
+      .status(400)
+      .json({ message: "Animal ID is required as a param!" });
+  }
+
+  try {
+    const animalFound = await Animal.findOne({ _id: animalId }).exec();
+    console.log("animalFound:", animalFound);
+
+    if (!animalFound) {
+      return res.status(404).json({ message: "User not found!" });
+    }
+
+    const image = animalFound.image;
+
+    let imageId;
+    if (image.length > 0) {
+      imageId = image[0];
+      console.log(imageId);
+    }
+
+    const imageFound = await Image.findOne({ _id: imageId?._id }).exec();
+    console.log("imageFound:", imageFound);
+
+    if (!imageFound) {
+      return res.status(404).json({ message: "No image found!" });
+    }
+
+    const imageUrl = `${req.protocol}://${host}/images/${imageFound?.image?.name}`;
+
+    return res.status(200).json({ imageUrl });
+  } catch (err) {
+    console.error("Error in getAnimalImage", err);
+    return res.status(500).json({ error: "Error in getAnimalImage", err: err });
+  }
+};
+
 module.exports = {
   login,
   createUser,
@@ -293,4 +336,5 @@ module.exports = {
   addAnimal,
   getAllSitters,
   getAllAnimal,
+  getAnimalImage,
 };

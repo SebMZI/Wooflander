@@ -11,5 +11,6 @@ router.post("/addAnimal", multerConfig, userController.addAnimal);
 router.get("/:userId/image", userController.getImage);
 router.get("/sitters", userController.getAllSitters);
 router.get("/:userId/animal", userController.getAllAnimal);
+router.get("/:animalId/getAnimalImage", userController.getAnimalImage);
 
 module.exports = router;

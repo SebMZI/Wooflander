@@ -6,6 +6,7 @@ export const animalsApiSlice = apiSlice.injectEndpoints({
       query: (userId) => ({
         url: `/user/${userId}/animal`,
       }),
+      providesTags: ["animals"],
     }),
     addAnimal: builder.mutation({
       query: (formData) => ({
@@ -13,8 +14,18 @@ export const animalsApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: formData,
       }),
+      invalidatesTags: ["animals"],
+    }),
+    getAnimalImage: builder.query({
+      query: (animalId) => ({
+        url: `/user/${animalId}/getAnimalImage`,
+      }),
     }),
   }),
 });
 
-export const { useGetAnimalsQuery, useAddAnimalMutation } = animalsApiSlice;
+export const {
+  useGetAnimalsQuery,
+  useAddAnimalMutation,
+  useGetAnimalImageQuery,
+} = animalsApiSlice;

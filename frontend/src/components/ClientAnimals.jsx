@@ -29,7 +29,9 @@ const ClientAnimals = () => {
       </button>
       <div className="animals-container">
         {animalsArray?.map((animal) =>
-          animal[1].map((anim, index) => <CardAnimals key={index} />)
+          animal[1].map((anim, index) => (
+            <CardAnimals anim={anim} key={index} />
+          ))
         )}
         {!animalsArray ? <p>No animals registered!</p> : null}
       </div>
