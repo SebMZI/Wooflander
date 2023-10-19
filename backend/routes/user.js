@@ -11,6 +11,7 @@ router.post("/addAnimal", multerConfig, userController.addAnimal);
 router.get("/:userId/profile", userController.getUserProfile);
 router.get("/:userId/image", userController.getImage);
 router.get("/sitters", userController.getAllSitters);
+router.get("/owners", userController.getAllOwners);
 router.get("/:userId/animal", userController.getAllAnimal);
 router.get("/:animalId/getAnimalImage", userController.getAnimalImage);
 router.put("/:userId/updateProfile", userController.updateProfile);

@@ -336,6 +336,20 @@ const getAllSitters = async (req, res) => {
   }
 };
 
+const getAllOwners = async (req, res) => {
+  try {
+    const result = await User.find({ roles: { Client: 2503 } })
+      .select("-password")
+      .exec();
+    if (!result) {
+      return res.status(404).json({ message: "No Owner found!" });
+    }
+    return res.status(200).json({ owners: result });
+  } catch (err) {
+    return res.status(500).json({ err });
+  }
+};
+
 const getAnimalImage = async (req, res) => {
   const { animalId } = req.params;
 
@@ -389,5 +403,6 @@ module.exports = {
   getAllSitters,
   getAllAnimal,
   getAnimalImage,
+  getAllOwners,
   updateProfile,
 };

@@ -3,7 +3,9 @@ import authReducer from "../features/auth/authSlice";
 import animalsReducer from "../features/animals/animalsSlice";
 import userReducer from "../features/user/userSlice";
 import stripeReducer from "../features/stripe/stripeSlice";
+import jobsReducer from "../features/jobs/jobsSlice";
 import apiSlice from "./api/apiSlice";
+
 import {
   persistReducer,
   persistStore,
@@ -39,6 +41,7 @@ const store = configureStore({
     user: userReducer,
     animals: animalsReducer,
     stripe: persistedStripeReducer,
+    jobs: jobsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

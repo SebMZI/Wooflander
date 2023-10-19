@@ -17,12 +17,12 @@ const Navbar = () => {
   const sessionID = useSelector(selectCurrentSessionId);
   const sessId = useSelector(selectCurrentStripeId);
   const router = useRouter();
-  console.log(roles);
+
   if (!roles) {
     router.replace("/");
   }
   const role = roles ? Object.values(roles)[0] : null;
-  console.log(role);
+
   const dispatch = useDispatch();
   return (
     <header className="header">
@@ -30,7 +30,7 @@ const Navbar = () => {
       <nav className="header-nav">
         <ul className="container">
           {!role && (
-            <>
+            <ul className="container">
               <li>
                 <Link className="item" href="/">
                   Home
@@ -46,12 +46,13 @@ const Navbar = () => {
                   Signup
                 </Link>
               </li>
-            </>
+            </ul>
           )}
-          {role === 2503 ? (
+
+          {role === 2503 && (
             <>
               <li>
-                <Link className="item" href="/dashboard/client">
+                <Link className="item" href="/dashboard/Client">
                   Dashboard
                 </Link>
               </li>
@@ -72,35 +73,33 @@ const Navbar = () => {
                 </button>
               </li>
             </>
-          ) : null}
+          )}
 
-          {(role === 4592 && sessionID) ||
-            (role === 4592 && sessId && (
-              <>
-                <li>
-                  <Link className="item" href="/dashboard/Sitter">
-                    Dashboard
-                  </Link>
-                </li>
-                <li>
-                  <Link className="item" href="/jobs/owners">
-                    Owners
-                  </Link>
-                </li>
-                <li>
-                  <button
-                    className="logout-btn"
-                    onClick={() => {
-                      dispatch(logout());
-                      dispatch(delSession());
-                    }}
-                  >
-                    LogOut
-                  </button>
-                </li>
-              </>
-            ))}
-          {!sessionID && !sessId && <></>}
+          {(role === 4592 && sessionID) || (role === 4592 && sessId) ? (
+            <>
+              <li>
+                <Link className="item" href="/dashboard/Sitter">
+                  Dashboard
+                </Link>
+              </li>
+              <li>
+                <Link className="item" href="/jobs/owners">
+                  Owners
+                </Link>
+              </li>
+              <li>
+                <button
+                  className="logout-btn"
+                  onClick={() => {
+                    dispatch(logout());
+                    dispatch(delSession());
+                  }}
+                >
+                  LogOut
+                </button>
+              </li>
+            </>
+          ) : null}
         </ul>
       </nav>
     </header>

@@ -1,0 +1,38 @@
+.jobs {
+  width: 100vw;
+  height: 100vh;
+  &-section {
+    height: 100%;
+    width: 100%;
+    background-image: url("../../../assets/photo-1575859431352-39e2735a0aab.webp");
+    background-repeat: no-repeat;
+    background-size: cover;
+    .container {
+      height: 100%;
+      width: 100%;
+      position: relative;
+      z-index: 2;
+      padding: 150px 40px 120px;
+      .jobs-title {
+        color: #fff;
+        font-size: 40px;
+        font-weight: 400;
+      }
+      .content {
+        padding: 20px;
+        background-color: #fff;
+        overflow: scroll;
+        margin-top: 40px;
+        height: 100%;
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        grid-column-gap: 20px;
+        grid-row-gap: 60px;
+        grid-auto-rows: auto;
+        justify-items: center;
+        border-radius: 10px;
+      }
+    }
+  }
+}

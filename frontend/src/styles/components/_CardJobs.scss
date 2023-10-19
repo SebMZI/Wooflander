@@ -1,0 +1,51 @@
+.card-link {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 10px;
+  padding-top: 150%;
+  border-radius: 10px;
+  .card-jobs {
+    .img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+      border-radius: 10px;
+    }
+    .card-content {
+      border-radius: 10px;
+      position: absolute;
+      bottom: 0;
+      z-index: 5;
+      color: #fff;
+      height: 90px;
+      width: 100%;
+      padding: 0 20px;
+
+      &::after {
+        content: "";
+        border-radius: 10px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to top, #000, #ffffff00);
+      }
+      .card-title {
+        position: relative;
+        font-size: 26px;
+        z-index: 30;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .card-subtitle {
+        position: relative;
+        z-index: 30;
+      }
+    }
+  }
+}
