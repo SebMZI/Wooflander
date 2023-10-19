@@ -29,7 +29,7 @@ const index = () => {
         if (currentRole === 2503) {
           router.replace("/dashboard/Client");
         } else if (currentRole === 4592) {
-          router.replace("/dashboard/Client");
+          router.replace("/dashboard/Sitter ");
         }
       }
     } catch (err) {
@@ -39,12 +39,12 @@ const index = () => {
 
   useEffect(() => {
     console.log("token: ", token, "Roles: ", currentRole);
-    const roleValue = Object.values(currentRole)[0];
+    const roleValue = currentRole ? Object.values(currentRole)[0] : null;
     if (token) {
       if (roleValue === 2503) {
         router.push("/dashboard/Client");
       } else if (roleValue === 4592) {
-        router.push("/dashboard/Client");
+        router.push("/dashboard/Sitter ");
       }
     }
   }, [token, currentRole]);

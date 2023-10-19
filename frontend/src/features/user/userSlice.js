@@ -10,6 +10,7 @@ const userSlice = createSlice({
         state.userInfo = data;
       }
     },
+    
   },
 });
 

@@ -21,7 +21,7 @@ const index = () => {
   console.log(userId);
 
   useEffect(() => {
-    const role = Object?.values(roles)[0];
+    const role = roles ? Object?.values(roles)[0] : null;
     if (!role || role !== 2503 || !token) {
       router.replace("/");
     }

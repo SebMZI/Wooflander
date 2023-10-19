@@ -1,69 +1,73 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
-const userModel = mongoose.Schema({
+const userModel = mongoose.Schema(
+  {
     name: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     lastname: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     email: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     tel: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     password: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     username: {
-        type: String, 
-        required: true
-    }, 
+      type: String,
+      required: true,
+    },
     adress: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     roles: {
-        Client: Number,
-        Sitter: Number, 
-        Admin: Number
+      Client: Number,
+      Sitter: Number,
+      Admin: Number,
     },
-    animals:[ 
-        {
-            type: mongoose.Schema.Types.ObjectId, 
-            ref: "Animal"
-        }
+    sessionId: {
+      type: String,
+    },
+    animals: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Animal",
+      },
     ],
     note: {
-        type: Number,
-        default: null
+      type: Number,
+      default: null,
     },
     commentary: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Commentary"
-        }
-    ], 
-    images: [ 
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Image",
-        }
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Commentary",
+      },
+    ],
+    images: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Image",
+      },
     ],
     new: {
-        type: Boolean,
-        default: true
-    }
-        
-},
-{
-    timestamps: true
-})
+      type: Boolean,
+      default: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-module.exports = mongoose.model("User", userModel)
+module.exports = mongoose.model("User", userModel);
