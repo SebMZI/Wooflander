@@ -20,9 +20,7 @@
     height: 90px;
     width: 100%;
     padding: 0 20px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+
     &::after {
       content: "";
 
@@ -38,6 +36,9 @@
       position: relative;
       font-size: 26px;
       z-index: 30;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     p {
       position: relative;

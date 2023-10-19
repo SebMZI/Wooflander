@@ -62,11 +62,10 @@
       }
     }
   }
-
-  .overlay {
-    position: absolute;
-    inset: 0;
-    background-color: #0000006e;
-    z-index: 1;
-  }
+}
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: #00000051;
+  z-index: 1;
 }

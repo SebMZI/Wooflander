@@ -9,7 +9,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
       providesTags: ["User"],
     }),
     putUserProfile: builder.mutation({
-      query: ({ userId, username, tel, email }) => ({
+      query: ({ userId, username, tel, email, sessionId }) => ({
         url: `/user/${userId}/updateProfile`,
         method: "PUT",
         headers: {
@@ -19,6 +19,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
           username,
           tel,
           email,
+          sessionId,
         },
       }),
       invalidatesTags: ["User"],

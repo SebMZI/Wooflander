@@ -1,4 +1,8 @@
-import { logout, selectCurrectRole } from "@/features/auth/authSlice";
+import {
+  logout,
+  selectCurrectRole,
+  selectCurrentStripeId,
+} from "@/features/auth/authSlice";
 import {
   delSession,
   selectCurrentSessionId,
@@ -11,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 const Navbar = () => {
   const roles = useSelector(selectCurrectRole);
   const sessionID = useSelector(selectCurrentSessionId);
+  const sessId = useSelector(selectCurrentStripeId);
   const router = useRouter();
   console.log(roles);
   if (!roles) {
@@ -69,32 +74,33 @@ const Navbar = () => {
             </>
           ) : null}
 
-          {role === 4592 && sessionID && (
-            <>
-              <li>
-                <Link className="item" href="/dashboard/Sitter">
-                  Dashboard
-                </Link>
-              </li>
-              <li>
-                <Link className="item" href="/jobs/owners">
-                  Owners
-                </Link>
-              </li>
-              <li>
-                <button
-                  className="logout-btn"
-                  onClick={() => {
-                    dispatch(logout());
-                    dispatch(delSession());
-                  }}
-                >
-                  LogOut
-                </button>
-              </li>
-            </>
-          )}
-          {!sessionID && <></>}
+          {(role === 4592 && sessionID) ||
+            (role === 4592 && sessId && (
+              <>
+                <li>
+                  <Link className="item" href="/dashboard/Sitter">
+                    Dashboard
+                  </Link>
+                </li>
+                <li>
+                  <Link className="item" href="/jobs/owners">
+                    Owners
+                  </Link>
+                </li>
+                <li>
+                  <button
+                    className="logout-btn"
+                    onClick={() => {
+                      dispatch(logout());
+                      dispatch(delSession());
+                    }}
+                  >
+                    LogOut
+                  </button>
+                </li>
+              </>
+            ))}
+          {!sessionID && !sessId && <></>}
         </ul>
       </nav>
     </header>

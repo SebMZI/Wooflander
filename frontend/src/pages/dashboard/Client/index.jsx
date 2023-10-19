@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Layout from "../Layout";
+import Head from "next/head";
 import { useSelector } from "react-redux";
 import {
   selectCurrectRole,
@@ -29,6 +30,9 @@ const index = () => {
 
   return (
     <Layout>
+      <Head>
+        <title>Wooflander - Dashboard</title>
+      </Head>
       <main className="client">
         <section className="client-section">
           <div className="container">

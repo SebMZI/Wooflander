@@ -9,13 +9,11 @@ const AnimalModal = ({ setOpen }) => {
   const [age, setAge] = useState();
   const [veto, setVeto] = useState();
   const [proprio, setPropio] = useState();
-  const [getAlong, setGetAlong] = useState();
+  const [getAlong, setGetAlong] = useState(false);
   const [breed, setBreed] = useState();
   const [character, setCharacter] = useState();
   const [image, setImage] = useState();
   const id = useSelector(selectCurrentId);
-
-  // console.log(name, age, veto, proprio, getAlong, breed, character, image);
 
   const handleCreate = async (e) => {
     e.preventDefault();
