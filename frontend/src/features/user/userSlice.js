@@ -10,12 +10,12 @@ const userSlice = createSlice({
         state.userInfo = data;
       }
     },
-    
   },
 });
 
 export const { setUserInfo } = userSlice.actions;
 
 export const selectCurrentUserInfo = (state) => state.user.userInfo;
+export const selectCurrentActive = (state) => state.user.userInfo?.isSubActive;
 
 export default userSlice.reducer;

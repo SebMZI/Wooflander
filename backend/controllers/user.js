@@ -47,6 +47,7 @@ const createUser = async (req, res) => {
       tel,
       adress,
       roles,
+      isSubActive: false,
     });
 
     const result = await newUser.save();
@@ -129,7 +130,7 @@ const getUserProfile = async (req, res) => {
 
 const updateProfile = async (req, res) => {
   const { userId } = req.params;
-  const { username, tel, email, sessionId } = JSON.parse(req.body);
+  const { username, tel, email, sessionId, customerId } = JSON.parse(req.body);
   console.log("Username: ", username, "Tel: ", tel, "Email: ", email);
   console.log(userId);
   if (!userId) {
@@ -145,6 +146,7 @@ const updateProfile = async (req, res) => {
     if (tel) userFound.tel = tel;
     if (email) userFound.email = email;
     if (sessionId) userFound.sessionId = sessionId;
+    if (customerId) userFound.customerId = customerId;
 
     const result = await userFound.save();
     return res

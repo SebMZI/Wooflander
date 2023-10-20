@@ -38,6 +38,17 @@ const userModel = mongoose.Schema(
     sessionId: {
       type: String,
     },
+    subscriptionId: {
+      type: String,
+    },
+    isSubActive: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
+    customerId: {
+      type: String,
+    },
     animals: [
       {
         type: mongoose.Schema.Types.ObjectId,

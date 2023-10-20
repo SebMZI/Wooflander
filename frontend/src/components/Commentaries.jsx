@@ -46,7 +46,7 @@ const Commentaries = () => {
           </div>
         ))}
         {comments?.length === 0 ? (
-          <p className="no-comments">No Comments</p>
+          <p className="no-comments">No Comments for now...</p>
         ) : null}
       </div>
 
