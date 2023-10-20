@@ -4,6 +4,7 @@ import animalsReducer from "../features/animals/animalsSlice";
 import userReducer from "../features/user/userSlice";
 import stripeReducer from "../features/stripe/stripeSlice";
 import jobsReducer from "../features/jobs/jobsSlice";
+import commentReducer from "../features/commentary/commentarySlice";
 import apiSlice from "./api/apiSlice";
 
 import {
@@ -42,6 +43,7 @@ const store = configureStore({
     animals: animalsReducer,
     stripe: persistedStripeReducer,
     jobs: jobsReducer,
+    commentaries: commentReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

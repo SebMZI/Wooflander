@@ -13,6 +13,7 @@ import {
   selectCurrentSitters,
 } from "@/features/jobs/jobsSlice";
 import Layout from "@/pages/dashboard/Layout";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -40,6 +41,9 @@ const index = () => {
 
   return (
     <Layout>
+      <Head>
+        <title>Wooflander - Jobs</title>
+      </Head>
       <main className="jobs">
         <section className="jobs-section">
           <div className="overlay"></div>

@@ -19,6 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/user", require("./routes/user"));
+app.use("/commentary", require("./routes/commentary"));
 
 // In case of an error
 app.all("*", (req, res) => {
