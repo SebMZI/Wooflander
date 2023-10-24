@@ -25,6 +25,9 @@ const index = () => {
   const roles = useSelector(selectCurrectRole);
   const token = useSelector(selectCurrectToken);
   const sittersInfo = useSelector(selectCurrentSitters);
+  const sitterFiltered = sittersInfo.filter(
+    (sitter) => sitter.isSubActive === true
+  );
 
   useEffect(() => {
     const role = roles ? Object?.values(roles)[0] : null;
@@ -50,7 +53,7 @@ const index = () => {
           <div className="container">
             <h4 className="jobs-title">Sitters</h4>
             <div className="content">
-              {sittersInfo?.map((sitter, index) => (
+              {sitterFiltered?.map((sitter, index) => (
                 <CardJobs key={index} data={sitter} />
               ))}
             </div>

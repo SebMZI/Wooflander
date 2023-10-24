@@ -33,7 +33,7 @@ export default function Home() {
               <span className="text-or">Free</span> for the owners !
             </p>
             <p className="hero-subtitle sitter">
-              Only 9,99$/month for the sitters.
+              Only 9,99€/month for the sitters.
             </p>
             <p className="hero-subtitle">Trusted by more than 5000 owners.</p>
             <div className="btn-container">

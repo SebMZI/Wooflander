@@ -162,11 +162,45 @@ const webhook = async (req, res) => {
         }).exec();
         console.log("Customer: ", customerSubDeleted);
         if (customerSubDeleted) {
-          customerSubDeleted.sessionId = null;
-          customerSubDeleted.customerId = null;
           customerSubDeleted.isSubActive = false;
           await customerSubDeleted.save();
           console.log("Customer successfully deleted", customerSubDeleted);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+      break;
+    case "invoice.payment_succeeded":
+      invoiceSucceeded = event.data.object;
+      status = invoiceSucceeded.status;
+      console.log("Subscription status is", status);
+      try {
+        const customerSubPayed = await User.findOne({
+          customerId: invoiceSucceeded.customer,
+        });
+        if (customerSubPayed) {
+          customerSubPayed.isSubActive = true;
+          customerSubPayed.customerId = invoiceSucceeded.customer;
+          await customerSubPayed.save();
+          console.log("Customer Updated successfully!", customerSubPayed);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+
+      break;
+    case "invoice.payment_failded":
+      invoiceFailed = event.data.object;
+      status = invoiceFailed.status;
+      console.log("Subscription status is", status);
+      try {
+        const customerSubPayed = await User.findOne({
+          customerId: invoiceFailed.customer,
+        });
+        if (customerSubPayed) {
+          customerSubPayed.isSubActive = false;
+          await customerSubPayed.save();
+          console.log("Customer payment failed !", customerSubPayed);
         }
       } catch (err) {
         console.log(err);

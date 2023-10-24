@@ -7,6 +7,7 @@ import {
   delSession,
   selectCurrentSessionId,
 } from "@/features/stripe/stripeSlice";
+import { selectCurrentActive } from "@/features/user/userSlice";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
@@ -17,6 +18,7 @@ const Navbar = () => {
   const sessionID = useSelector(selectCurrentSessionId);
   const sessId = useSelector(selectCurrentStripeId);
   const router = useRouter();
+  const isSubActive = useSelector(selectCurrentActive);
 
   if (!roles) {
     router.replace("/");
@@ -75,7 +77,7 @@ const Navbar = () => {
             </>
           )}
 
-          {(role === 4592 && sessionID) || (role === 4592 && sessId) ? (
+          {role === 4592 && isSubActive ? (
             <>
               <li>
                 <Link className="item" href="/dashboard/Sitter">
@@ -87,6 +89,21 @@ const Navbar = () => {
                   Owners
                 </Link>
               </li>
+              <li>
+                <button
+                  className="logout-btn"
+                  onClick={() => {
+                    dispatch(logout());
+                    dispatch(delSession());
+                  }}
+                >
+                  LogOut
+                </button>
+              </li>
+            </>
+          ) : null}
+          {role === 4592 && !isSubActive ? (
+            <>
               <li>
                 <button
                   className="logout-btn"

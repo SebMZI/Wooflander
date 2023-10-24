@@ -73,7 +73,7 @@ const index = () => {
               </div>
 
               <div className="carrousel">
-                Carrousel
+                <h3>Carrousel</h3>
                 <Carrousel />
               </div>
             </div>
