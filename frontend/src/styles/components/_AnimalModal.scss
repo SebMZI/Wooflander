@@ -1,0 +1,51 @@
+.animal-modal {
+  position: absolute;
+  inset: 0;
+  z-index: 1000;
+
+  .overlay {
+    width: 100vw;
+    height: 100vh;
+    background: #00000077;
+    z-index: 1; /* La valeur de z-index est inférieure à celle de .animal-modal */
+  }
+
+  .modal-content {
+    position: absolute;
+    border-radius: 10px;
+    top: 15%;
+    left: 36%;
+    height: auto;
+    width: 400px;
+    background-color: #fff;
+    z-index: 2;
+    padding: 20px;
+    .modal-title {
+      text-align: center;
+      font-weight: 400;
+      padding: 20px 0;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      .inp-check {
+        display: flex;
+        flex-direction: row;
+        label {
+          margin-right: 10px;
+        }
+      }
+      input {
+        margin-bottom: 10px;
+        margin-top: 5px;
+        outline: none;
+        border: none;
+        border-bottom: 1px solid #000;
+        &::-webkit-autofill {
+          -webkit-box-shadow: 0 0 0 30px white inset;
+        }
+      }
+    }
+  }
+}

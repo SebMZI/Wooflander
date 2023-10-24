@@ -1,0 +1,30 @@
+.header-owner {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px;
+  .header-title {
+    position: relative;
+    font-size: 45px;
+    &::after {
+      content: "";
+      position: absolute;
+      width: 95px;
+      height: 5px;
+      bottom: -5px;
+      left: 0;
+      background-color: hsl(21, 80%, 71%);
+    }
+  }
+}
+
+.logout-btn {
+  border: none;
+  background: none;
+  font-size: 18px;
+  background-color: hsl(21, 80%, 71%);
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+}

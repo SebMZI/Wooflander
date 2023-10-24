@@ -1,0 +1,120 @@
+.auth {
+  &-main {
+    display: flex;
+    flex-direction: row;
+    background-color: #fff;
+  }
+  &-bg {
+    height: 100vh;
+    width: 70%;
+    background-image: url("../../../assets/cristian-castillo-73pyV0JJOmE-unsplash-min.webp");
+    background-size: cover;
+    background-position-x: 60%;
+  }
+
+  &-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    padding: 60px 50px;
+
+    h2 {
+      position: relative;
+      width: 100%;
+      text-align: right;
+      font-size: 50px;
+      &::after {
+        content: "";
+        position: absolute;
+        width: 60px;
+        height: 3px;
+        background-color: #000;
+        bottom: -5px;
+        right: 0;
+      }
+    }
+    .form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      margin-top: 50px;
+      .inp-content {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+      }
+      input,
+      select {
+        width: 100%;
+        margin: 5px 0 30px;
+        height: 30px;
+        border: none;
+        border-bottom: 1px solid #000;
+        background: none;
+        outline: none;
+        font-size: 16px;
+        &:-webkit-autofill {
+          -webkit-box-shadow: 0 0 0 30px white inset;
+        }
+      }
+      button {
+        margin-left: auto;
+        width: 40%;
+        height: 40px;
+        border-radius: 10px;
+        border: none;
+        background-color: hsl(21, 80%, 71%);
+        cursor: pointer;
+      }
+      .db-col {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        .item {
+          display: flex;
+          flex-direction: column;
+          &:nth-child(1) {
+            width: 60%;
+          }
+          &:nth-child(2) {
+            width: 30%;
+          }
+        }
+      }
+    }
+  }
+  &-nav {
+    margin-top: 40px;
+    a {
+      position: relative;
+      margin-left: 20px;
+      &:hover {
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: -5  px;
+          left: 0;
+          width: 100%;
+          height: 2px;
+          background-color: #f0a37a;
+        }
+      }
+    }
+  }
+}
+.signup-content {
+  width: 40%;
+}
+.login-content {
+  width: 30%;
+}
+.signup-bg {
+  height: 100vh;
+  width: 60%;
+  background-image: url("../../../assets/dog.webp");
+  background-size: cover;
+  background-position-x: 100%;
+}
