@@ -21,9 +21,9 @@ export default function Home() {
       <Navbar />
       <main className="home-main">
         <section className="hero-section">
-          <video autoPlay loop muted playsInline>
+          {/* <video autoPlay loop muted playsInline>
             <source src={dogVideo} type="video/mp4"></source>
-          </video>
+          </video> */}
           <div className="content">
             <h2 className="hero-title">
               Find the Perfect <span className="text-or">Dog</span>sitter for
@@ -36,11 +36,14 @@ export default function Home() {
               Only 9,99€/month for the sitters.
             </p>
             <p className="hero-subtitle">Trusted by more than 5000 owners.</p>
+
             <div className="btn-container">
               <button className="btn btn-solid">
-                <Link href="/auth/signup">Signup</Link>
+                Signup
+                {/* <Link href="/auth/signup">Signup</Link> */}
               </button>
               <button className="btn btn-light">
+                {/* Login */}
                 <Link href="/auth/login">Login</Link>
               </button>
             </div>

@@ -18,10 +18,15 @@ const index = () => {
   const [login, { isError }] = useLoginMutation();
   const currentRole = useSelector(selectCurrectRole);
   const token = useSelector(selectCurrectToken);
+  const [msg, setMsg] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
     console.log(username, password);
+    if (!username || !password) {
+      return setMsg("All fields are required");
+    }
+
     try {
       const result = await login({ username: username, password: password });
       console.log(result);
@@ -35,6 +40,7 @@ const index = () => {
       }
     } catch (err) {
       console.log(err);
+      return setMsg(err.message);
     }
   };
 
@@ -75,7 +81,7 @@ const index = () => {
               id="password"
               onChange={(e) => setPassword(e.target.value)}
             />
-            {isError ? <p>Failed to login!</p> : null}
+            {msg && <p>{msg}</p>}
             <button type="submit" className="btn btn-solid">
               Submit
             </button>

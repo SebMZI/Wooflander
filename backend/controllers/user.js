@@ -11,8 +11,18 @@ const mongoose = require("mongoose");
 // const imageCompression = require("browser-image-compression");
 
 const createUser = async (req, res) => {
-  const { email, password, username, tel, name, lastname, adress, roles } =
-    JSON.parse(req.body);
+  const {
+    email,
+    password,
+    username,
+    tel,
+    name,
+    lastname,
+    adress,
+    roles,
+    city,
+    state,
+  } = JSON.parse(req.body);
   if (
     !email ||
     !password ||
@@ -20,7 +30,10 @@ const createUser = async (req, res) => {
     !tel ||
     !name ||
     !lastname ||
-    !adress
+    !adress ||
+    !roles ||
+    !city ||
+    !state
   ) {
     return res.status(400).json({ message: "All fields are required!" });
   }
@@ -47,6 +60,8 @@ const createUser = async (req, res) => {
       tel,
       adress,
       roles,
+      city,
+      state,
       isSubActive: false,
     });
 
@@ -368,30 +383,34 @@ const getAnimalImage = async (req, res) => {
     console.log("animalFound:", animalFound);
 
     if (!animalFound) {
-      return res.status(404).json({ message: "User not found!" });
+      return res.status(404).json({ message: "Animal not found!" });
     }
 
     const image = animalFound.image;
 
-    let imageId;
-    if (image.length > 0) {
-      imageId = image[0];
-      console.log(imageId);
+    if (image.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No image found for this animal!" });
     }
+
+    const imageId = image[0];
+    console.log("imageId:", imageId);
 
     const imageFound = await Image.findOne({ _id: imageId?._id }).exec();
-    console.log("imageFound:", imageFound);
 
     if (!imageFound) {
-      return res.status(404).json({ message: "No image found!" });
+      return res.status(404).json({ message: "Image not found!" });
     }
 
-    const imageUrl = `${req.protocol}://${host}/images/${imageFound?.image?.name}`;
+    const imageUrl = `${host}/images/${imageFound.image.name}`;
 
     return res.status(200).json({ imageUrl });
   } catch (err) {
     console.error("Error in getAnimalImage", err);
-    return res.status(500).json({ error: "Error in getAnimalImage", err: err });
+    return res
+      .status(500)
+      .json({ error: "Error in getAnimalImage", err: err.message });
   }
 };
 

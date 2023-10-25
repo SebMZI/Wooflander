@@ -11,6 +11,8 @@ const index = () => {
   const [email, setEmail] = useState("");
   const [tel, setTel] = useState("");
   const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
   const [role, setRole] = useState("");
   const [pwd, setPwd] = useState("");
   const [username, setUsername] = useState("");
@@ -21,6 +23,23 @@ const index = () => {
 
   const handleSignup = async (e) => {
     e.preventDefault();
+
+    if (
+      !name ||
+      !lastname ||
+      !email ||
+      !tel ||
+      !address ||
+      !role ||
+      !pwd ||
+      !username ||
+      !confPwd ||
+      !city ||
+      !state
+    ) {
+      return setMsg("All fields are required");
+    }
+
     let roles;
     let password;
     if (role === "Client") {
@@ -44,6 +63,8 @@ const index = () => {
         email,
         tel,
         adress: address,
+        city: city,
+        state: state,
         roles,
         password,
         username,
@@ -66,7 +87,7 @@ const index = () => {
           <h2>Signup</h2>
           <form onSubmit={(e) => handleSignup(e)} className="form form-signup">
             <div className="inp-content">
-              <div>
+              <div className="items">
                 <div>
                   <label htmlFor="name">Name</label>
                   <input
@@ -101,7 +122,7 @@ const index = () => {
                   />
                 </div>
               </div>
-              <div>
+              <div className="items">
                 <div>
                   <label htmlFor="lastname">Lastname</label>
                   <input
@@ -143,13 +164,35 @@ const index = () => {
               </div>
             </div>
 
-            <label htmlFor="address">Address</label>
-            <input
-              type="text"
-              name="address"
-              id="address"
-              onChange={(e) => setAddress(e.target.value)}
-            />
+            <div className="inp-content-2">
+              <div className="item">
+                <label htmlFor="address">Address</label>
+                <input
+                  type="text"
+                  name="address"
+                  id="address"
+                  onChange={(e) => setAddress(e.target.value)}
+                />
+              </div>
+              <div className="item">
+                <label htmlFor="city">City</label>
+                <input
+                  type="text"
+                  name="city"
+                  id="city"
+                  onChange={(e) => setCity(e.target.value)}
+                />
+              </div>
+              <div className="item">
+                <label htmlFor="state">State</label>
+                <input
+                  type="text"
+                  name="state"
+                  id="state"
+                  onChange={(e) => setState(e.target.value)}
+                />
+              </div>
+            </div>
 
             <p>{msg}</p>
             <button type="submit" className="btn btn-solid">

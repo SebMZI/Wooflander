@@ -8,11 +8,11 @@ const CardAnimals = ({ anim }) => {
   return (
     <article className="animal-card">
       <Image
-        src={animalImage?.imageUrl}
+        src={animalImage?.img}
         layout="fill"
         objectFit="cover"
         className="img"
-        alt={anim.name}
+        alt={`Dog image for ${anim?.name}`}
         sizes="(max-width: 640px) 50vw, (max-width: 1024px) 30vw, 20vw"
         priority={true}
       />
@@ -20,7 +20,7 @@ const CardAnimals = ({ anim }) => {
       <div className="animal-title">
         <h4>{anim.name}</h4>
         <p>{anim.age} yo</p>
-      </div>k
+      </div>
     </article>
   );
 };

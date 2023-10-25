@@ -98,7 +98,7 @@ a {
   color: inherit;
   text-decoration: none;
 }
-a:hover::after {
+/* a:hover::after {
   content: "";
   position: absolute;
   bottom: -5px;
@@ -106,9 +106,20 @@ a:hover::after {
   width: 100%;
   height: 2px;
   background-color: hsl(21, 80%, 71%);
-}
+} */
 .text-or {
   color: hsl(21, 80%, 71%);
+}
+
+.container,header, footer {
+  max-width: 1440px;
+  width: 100%;
+  margin: auto;
+
+}
+
+.content::-webkit-scrollbar, section::-webkit-scrollbar, .btn-container::-webkit-scrollbar{
+  display: none;
 }
 
 .btn {

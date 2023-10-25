@@ -8,8 +8,19 @@ module.exports = {
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
   },
+  webp: {
+    preset: "default",
+    quality: 100,
+  },
   images: {
-    domains: ["localhost"],
+    domains: ["wooflander.onrender.com", "localhost"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "wooflander.onrender.com",
+        pathname: "/images/**",
+      },
+    ],
   },
   webpack(config, options) {
     config.module.rules.push({

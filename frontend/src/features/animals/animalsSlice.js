@@ -11,6 +11,7 @@ const animalsSlice = createSlice({
         state.animals = data;
       }
     },
+    
   },
 });
 

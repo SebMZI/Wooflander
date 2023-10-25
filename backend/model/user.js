@@ -30,6 +30,14 @@ const userModel = mongoose.Schema(
       type: String,
       required: true,
     },
+    city: {
+      type: String,
+      required: true,
+    },
+    state: {
+      type: String,
+      required: true,
+    },
     roles: {
       Client: Number,
       Sitter: Number,
