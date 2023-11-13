@@ -1,10 +1,10 @@
 import { useSignupMutation } from "@/features/auth/authApiSlice";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 
-const index = () => {
+const Index = () => {
   const [signup, { isError }] = useSignupMutation();
   const [name, setName] = useState("");
   const [lastname, setLastname] = useState("");
@@ -17,6 +17,7 @@ const index = () => {
   const [pwd, setPwd] = useState("");
   const [username, setUsername] = useState("");
   const [confPwd, setConfPwd] = useState("");
+  const [certificate, setCertificate] = useState();
   const router = useRouter();
 
   const [msg, setMsg] = useState("");
@@ -40,40 +41,68 @@ const index = () => {
       return setMsg("All fields are required");
     }
 
-    let roles;
-    let password;
-    if (role === "Client") {
-      roles = {
-        Client: 2503,
-      };
-    } else if (role === "Sitter") {
-      roles = {
-        Sitter: 4592,
-      };
+    console.log(
+      name,
+      lastname,
+      email,
+      tel,
+      address,
+      role,
+      pwd,
+      username,
+      city,
+      state
+    );
+
+    if (role === "Sitter" && !certificate) {
+      return setMsg("Please upload your certificate");
     }
+
+    let password;
+
     if (pwd === confPwd) {
       password = pwd;
     } else {
       return setMsg("Passwords not matching !");
     }
+
+    const formData = new FormData();
+
+    formData.append("name", name);
+    formData.append("lastname", lastname);
+    formData.append("email", email);
+    formData.append("tel", tel);
+    formData.append("adress", address);
+    formData.append("city", city);
+    formData.append("state", state);
+    formData.append("roles", role);
+    formData.append("password", password);
+    formData.append("username", username);
+    formData.append("image", certificate);
+
+    for (let pair of formData.entries()) {
+      console.log(pair[0] + ", " + pair[1]);
+    }
+
     try {
-      const result = await signup({
-        name,
-        lastname,
-        email,
-        tel,
-        adress: address,
-        city: city,
-        state: state,
-        roles,
-        password,
-        username,
-      });
+      const result = await signup(formData);
+      console.log(result);
+      if (result?.error?.status === 400) {
+        return setMsg(result?.error?.data?.message);
+      }
       router.push("/auth/login");
     } catch (err) {
       console.log(err);
     }
   };
+
+  useEffect(() => {
+    if (msg) {
+      setTimeout(() => {
+        setMsg("");
+      }, 3000);
+    }
+  }, [msg]);
 
   return (
     <>
@@ -89,7 +118,9 @@ const index = () => {
             <div className="inp-content">
               <div className="items">
                 <div>
-                  <label htmlFor="name">Name</label>
+                  <label htmlFor="name">
+                    Name <span className="mandatory">*</span>
+                  </label>
                   <input
                     type="text"
                     id="name"
@@ -97,7 +128,9 @@ const index = () => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="username">Username</label>
+                  <label htmlFor="username">
+                    Username <span className="mandatory">*</span>
+                  </label>
                   <input
                     type="text"
                     id="username"
@@ -105,7 +138,9 @@ const index = () => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="email">Email</label>
+                  <label htmlFor="email">
+                    Email <span className="mandatory">*</span>
+                  </label>
                   <input
                     type="text"
                     id="email"
@@ -113,7 +148,9 @@ const index = () => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="pwd">Password</label>
+                  <label htmlFor="pwd">
+                    Password <span className="mandatory">*</span>
+                  </label>
                   <input
                     type="password"
                     name="pwd"
@@ -124,7 +161,9 @@ const index = () => {
               </div>
               <div className="items">
                 <div>
-                  <label htmlFor="lastname">Lastname</label>
+                  <label htmlFor="lastname">
+                    Lastname <span className="mandatory">*</span>
+                  </label>
                   <input
                     type="text"
                     id="lastname"
@@ -133,7 +172,9 @@ const index = () => {
                 </div>
 
                 <div className="item">
-                  <label htmlFor="tel">Tel</label>
+                  <label htmlFor="tel">
+                    Tel <span className="mandatory">*</span>
+                  </label>
                   <input
                     type="tel"
                     id="tel"
@@ -141,7 +182,9 @@ const index = () => {
                   />
                 </div>
                 <div className="item">
-                  <label htmlFor="roles">Role</label>
+                  <label htmlFor="roles">
+                    Role <span className="mandatory">*</span>
+                  </label>
                   <select
                     name="roles"
                     id="roles"
@@ -153,7 +196,9 @@ const index = () => {
                   </select>
                 </div>
                 <div>
-                  <label htmlFor="confPwd">Confirm Password</label>
+                  <label htmlFor="confPwd">
+                    Confirm Password <span className="mandatory">*</span>
+                  </label>
                   <input
                     type="password"
                     name="confPwd"
@@ -166,7 +211,9 @@ const index = () => {
 
             <div className="inp-content-2">
               <div className="item">
-                <label htmlFor="address">Address</label>
+                <label htmlFor="address">
+                  Address <span className="mandatory">*</span>
+                </label>
                 <input
                   type="text"
                   name="address"
@@ -175,7 +222,9 @@ const index = () => {
                 />
               </div>
               <div className="item">
-                <label htmlFor="city">City</label>
+                <label htmlFor="city">
+                  City <span className="mandatory">*</span>
+                </label>
                 <input
                   type="text"
                   name="city"
@@ -184,7 +233,9 @@ const index = () => {
                 />
               </div>
               <div className="item">
-                <label htmlFor="state">State</label>
+                <label htmlFor="state">
+                  State <span className="mandatory">*</span>
+                </label>
                 <input
                   type="text"
                   name="state"
@@ -193,8 +244,22 @@ const index = () => {
                 />
               </div>
             </div>
-
-            <p>{msg}</p>
+            {role === "Sitter" && (
+              <div className="item">
+                <label htmlFor="certificate" className="cert-label">
+                  ACACED Certificate <span className="mandatory">*</span>
+                </label>
+                <input
+                  type="file"
+                  name="certificate"
+                  id="certificate"
+                  accept=".pdf, .docx, .doc"
+                  className="cert-inp"
+                  onChange={(e) => setCertificate(e.target.files[0])}
+                />
+              </div>
+            )}
+            <p className="msg">{msg}</p>
             <button type="submit" className="btn btn-solid">
               Signup
             </button>
@@ -209,4 +274,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;

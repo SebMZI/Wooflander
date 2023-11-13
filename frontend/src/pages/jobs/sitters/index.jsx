@@ -1,26 +1,23 @@
 import CardJobs from "@/components/CardJobs";
 import {
+  logout,
   selectCurrectRole,
   selectCurrectToken,
+  selectCurrentId,
 } from "@/features/auth/authSlice";
-import {
-  useGetAllOwnersQuery,
-  useGetAllSittersQuery,
-} from "@/features/jobs/jobsApiSlice";
-import {
-  getOwners,
-  getSitters,
-  selectCurrentSitters,
-} from "@/features/jobs/jobsSlice";
-import Layout from "@/pages/dashboard/Layout";
+import { useGetAllSittersQuery } from "@/features/jobs/jobsApiSlice";
+import { getSitters, selectCurrentSitters } from "@/features/jobs/jobsSlice";
+import Layout from "@/pages/Layout";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import FilterBar from "@/components/FilterBar";
 
-const index = () => {
+const Index = () => {
   const dispatch = useDispatch();
   const { data: sitters } = useGetAllSittersQuery();
+  const userId = useSelector(selectCurrentId);
   const router = useRouter();
   const roles = useSelector(selectCurrectRole);
   const token = useSelector(selectCurrectToken);
@@ -28,19 +25,51 @@ const index = () => {
   const sitterFiltered = sittersInfo.filter(
     (sitter) => sitter.isSubActive === true
   );
+  let sittersToFilter = sitterFiltered;
+  console.log(sitterFiltered);
+
+  const [city, setCity] = useState();
+  const [state, setState] = useState();
+
+  console.log("State: ", state, "City: ", city);
+
+  if (state) {
+    sittersToFilter = sittersToFilter.filter(
+      (sitter) => sitter.state === state
+    );
+  }
+
+  if (city) {
+    sittersToFilter = sittersToFilter.filter((sitter) => sitter.city === city);
+  }
+
+  if (state && city) {
+    sittersToFilter = sittersToFilter.filter(
+      (sitter) => sitter.state === state
+    );
+    sittersToFilter = sittersToFilter.filter((sitter) => sitter.city === city);
+  }
 
   useEffect(() => {
     const role = roles ? Object?.values(roles)[0] : null;
-    if (!role || role !== 4592 || !token) {
-      router.replace("/jobs/sitters");
+    if (!role || role !== 2503 || !token) {
+      dispatch(logout());
+      router.replace("/");
     }
-  }, [roles]);
+  }, [roles, router, token]);
+
+  useEffect(() => {
+    if (!userId) {
+      dispatch(logout());
+      router.replace("/");
+    }
+  }, [userId]);
 
   useEffect(() => {
     if (sitters) {
       dispatch(getSitters(sitters));
     }
-  }, [sitters]);
+  }, [sitters, dispatch]);
 
   return (
     <Layout>
@@ -53,9 +82,17 @@ const index = () => {
           <div className="container">
             <h4 className="jobs-title">Sitters</h4>
             <div className="content">
-              {sitterFiltered?.map((sitter, index) => (
-                <CardJobs key={index} data={sitter} />
-              ))}
+              <FilterBar
+                setCity={setCity}
+                setState={setState}
+                users={sitterFiltered}
+              />
+              <div className="jobs-content">
+                {sittersToFilter.length <= 0 && <p>No Sitter to show!</p>}
+                {sittersToFilter?.map((sitter, index) => (
+                  <CardJobs key={index} data={sitter} />
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -64,4 +101,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;

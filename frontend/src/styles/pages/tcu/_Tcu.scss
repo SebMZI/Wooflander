@@ -1,0 +1,42 @@
+.tcu {
+    height: 100vh;
+    width: 100vw;
+    &-container {
+        width: 100vw;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: relative;
+        inset: 0;
+        padding-top: 70px;
+        background-image: url("../assets/photo-1575859431352-39e2735a0aab-min.webp");
+        .container {
+            width: 100%;
+            height: auto;
+            position: relative;
+            padding: 50px 40px;
+            z-index: 2;
+            .content {
+                background: #fff;
+                padding: 50px 20px;
+                border-radius: 10px;
+                &-header {
+                    margin-bottom: 40px;
+                    h2 {
+                        margin-bottom: 5px;
+                        font-size: 30px;
+                    }
+                }
+                .item {
+                    margin-bottom: 30px;
+                    h3 {
+                        margin-bottom: 5px;
+                    }
+                }
+            }
+        }
+    }
+}

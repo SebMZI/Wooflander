@@ -1,4 +1,4 @@
-import apiSlice from "@/api/api/apiSlice";
+import { apiSlice } from "@/api/api/apiSlice";
 
 export const commentaryApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -16,8 +16,19 @@ export const commentaryApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["comments"],
     }),
+    addNotes: builder.mutation({
+      query: (content) => ({
+        url: `/commentary/addRating`,
+        method: "POST",
+        body: { ...content },
+      }),
+      invalidatesTags: ["comments"],
+    }),
   }),
 });
 
-export const { useAddCommentMutation, useGetCommentsQuery } =
-  commentaryApiSlice;
+export const {
+  useAddCommentMutation,
+  useGetCommentsQuery,
+  useAddNotesMutation,
+} = commentaryApiSlice;

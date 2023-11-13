@@ -1,0 +1,39 @@
+.filterbar {
+    height: auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    .filter {
+        margin-right: 10px;
+        color: #f0a37a;
+        font-size: 18px;
+    }
+    .select {
+        padding: 5px 10px;
+        border-radius: 10px;
+        border: 2px solid #f0a37a;
+        margin-right: 10px;
+        color: #f0a37a;
+        outline: none;
+        background-color: #fff;
+    }
+}
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
+    .filterbar {
+        flex-direction: column;
+        gap: 5px;
+        .select-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            gap: 10px;
+            width: 100%;
+            .select {
+                margin-right: 0;
+                width: 50%;
+            }
+        }
+    }
+}

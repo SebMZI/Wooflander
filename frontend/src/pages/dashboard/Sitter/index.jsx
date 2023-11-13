@@ -1,77 +1,62 @@
 import React, { useEffect } from "react";
-import Layout from "../Layout";
+import Layout from "../../Layout";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  logout,
   selectCurrectRole,
   selectCurrectToken,
+  selectCurrentActiveSub,
   selectCurrentId,
-  selectCurrentStripeId,
-  setCredentials,
 } from "@/features/auth/authSlice";
 
-import {
-  selectCurrentCustomerId,
-  selectCurrentSessionId,
-  setCustomerId,
-  setSessionId,
-  setSessionUrl,
-} from "@/features/stripe/stripeSlice";
 import PaymentModal from "@/components/PaymentModal";
-import { useParams } from "next/navigation";
-import { usePutUserProfileMutation } from "@/features/user/userApiSlice";
+
 import Head from "next/head";
 import UserProfile from "@/components/UserProfile";
-import {
-  useGetCustomerIdQuery,
-  useWebhookQuery,
-} from "@/features/stripe/stripeApiSlice";
-import { selectCurrentActive } from "@/features/user/userSlice";
 
-const index = () => {
+import {
+  selectCurrentActive,
+  selectCurrentProfilePicture,
+  setUserPicture,
+} from "@/features/user/userSlice";
+import Commentaries from "@/components/Commentaries";
+import { useGetProfilePicQuery } from "@/features/user/userApiSlice";
+import unknown from "../../../assets/unknown.png";
+import Image from "next/image";
+
+const Index = () => {
   const router = useRouter();
-  // const { success, session_id } = router.query;
   const roles = useSelector(selectCurrectRole);
   const token = useSelector(selectCurrectToken);
-  const isActive = useSelector(selectCurrentActive);
-  // const userId = useSelector(selectCurrentId);
-  //const sessionId = useSelector(selectCurrentSessionId);
-  // const customerId = useSelector(selectCurrentCustomerId);
-  //const sessId = useSelector(selectCurrentStripeId);
-  // const dispatch = useDispatch();
-  // const [putUser] = usePutUserProfileMutation();
+  const userId = useSelector(selectCurrentId);
+  const dispatch = useDispatch();
+  const subActive = useSelector(selectCurrentActive);
+  const activeSub = useSelector(selectCurrentActiveSub);
 
-  // const handleSessionId = async () => {
-  //   const result = await putUser({
-  //     userId,
-  //     sessionId,
-  //     customerId: customerId,
-  //   });
-  //   console.log(result);
-  // };
+  const isActive = activeSub ? activeSub : subActive;
 
-  // const { data: customer } = useGetCustomerIdQuery(sessId || sessionId);
-  // console.log(customer);
-  // useEffect(() => {
-  //   if (customer) {
-  //     const customerId = customer.customerId; // Extrait l'ID du client
-  //     dispatch(setCustomerId(customerId)); // Envoie l'ID du client à l'action
-  //   }
-  //   handleSessionId();
-  // }, [customer]);
+  const { data: profilePic } = useGetProfilePicQuery(userId);
 
-  // useEffect(() => {
-  //   dispatch(setSessionId(session_id));
+  if (profilePic) {
+    dispatch(setUserPicture(profilePic));
+  }
 
-  //   handleSessionId();
-  // }, [session_id]);
+  const pic = useSelector(selectCurrentProfilePicture);
 
   useEffect(() => {
     const role = roles ? Object?.values(roles)[0] : null;
     if (!role || role !== 4592 || !token) {
+      dispatch(logout());
       router.replace("/");
     }
-  }, [roles]);
+  }, [roles, token, router]);
+  useEffect(() => {
+    if (!userId) {
+      dispatch(logout());
+      router.replace("/");
+    }
+  }, [userId]);
 
   return (
     <Layout>
@@ -80,16 +65,32 @@ const index = () => {
       </Head>
       <main className="sitter-main">
         <section className="hero">
-          {!isActive ? <PaymentModal /> : null}
-          <div className="container">
-            <h2 className="dash-title">Dashboard</h2>
-            <div className="content">
-              <div className="nav">
-                <button className="link">Profile</button>
+          {!isActive ? (
+            <PaymentModal />
+          ) : (
+            <div className="container">
+              <div className="sitter-header">
+                <Image
+                  className="profile-pic"
+                  src={pic ?? unknown}
+                  alt="picture profile"
+                  width={60}
+                  height={60}
+                />
+
+                <h2 className="dash-title">Dashboard</h2>
               </div>
-              <UserProfile />
+              <div className="content">
+                <div className="nav">
+                  <button className="link">Profile</button>
+                </div>
+                <UserProfile />
+                <h3>Commentaries</h3>
+                <Commentaries sitter={true} />
+              </div>
             </div>
-          </div>
+          )}
+
           <div className="overlay"></div>
         </section>
       </main>
@@ -97,4 +98,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;

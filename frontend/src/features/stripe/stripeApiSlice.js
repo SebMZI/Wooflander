@@ -1,4 +1,4 @@
-import apiSlice from "@/api/api/apiSlice";
+import { apiSlice } from "@/api/api/apiSlice";
 
 export const stripeApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

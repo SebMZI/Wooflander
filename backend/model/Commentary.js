@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const commentarySchema = mongoose.Schema(
   {
+    ratingId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Rating",
+    },
     from: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

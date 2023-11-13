@@ -2,7 +2,7 @@ const stripe = require("stripe")(process.env.SK_TEST);
 const express = require("express");
 const app = express();
 const getRawBody = require("raw-body");
-const DOMAIN = "http://localhost:3000";
+const DOMAIN = "https://wooflander.vercel.app";
 const User = require("../model/user");
 
 const createCheckoutSession = async (req, res) => {
@@ -96,6 +96,23 @@ const webhook = async (req, res) => {
         console.log(err);
       }
 
+      break;
+    case "payment_intent.canceled":
+      paymentCanceled = event.data.object;
+      status = paymentCanceled.status;
+      try {
+        const customerCanceled = await User.find({
+          email: paymentCanceled.biling_details.email,
+        }).exec();
+        if (customerSucceeded) {
+          customerCanceled.isSubActive = false;
+          customerCanceled.customerId = paymentCanceled.customer;
+          await customerCanceled.save();
+          console.log("Customer Payment succeeded!", customerCanceled);
+        }
+      } catch (err) {
+        console.log(err);
+      }
       break;
     case "checkout.session.completed":
       sessionCompleted = event.data.object;
@@ -194,13 +211,15 @@ const webhook = async (req, res) => {
       status = invoiceFailed.status;
       console.log("Subscription status is", status);
       try {
-        const customerSubPayed = await User.findOne({
+        const customerSubFailed = await User.findOne({
           customerId: invoiceFailed.customer,
         });
-        if (customerSubPayed) {
-          customerSubPayed.isSubActive = false;
-          await customerSubPayed.save();
-          console.log("Customer payment failed !", customerSubPayed);
+        if (customerSubFailed) {
+          customerSubFailed.isSubActive = false;
+          customerSubFailed.customerId = invoiceFailed.customer;
+          customerSubFailed;
+          await customerSubFailed.save();
+          console.log("Customer payment failed !", customerSubFailed);
         }
       } catch (err) {
         console.log(err);
@@ -218,26 +237,11 @@ const webhook = async (req, res) => {
       // Gérer l'événement de suspension d'abonnement ici
       // Ajoutez votre logique pour cet événement
       break;
-    case "customer.subscription.pending_update_applied":
-      // Gérer l'événement de mise à jour d'abonnement en attente appliqué ici
-      // Ajoutez votre logique pour cet événement
-      break;
-    case "customer.subscription.pending_update_expired":
-      // Gérer l'événement d'expiration de la mise à jour d'abonnement en attente ici
-      // Ajoutez votre logique pour cet événement
-      break;
     case "customer.subscription.resumed":
       // Gérer l'événement de reprise d'abonnement ici
       // Ajoutez votre logique pour cet événement
       break;
-    case "payment_intent.canceled":
-      // Gérer l'événement d'annulation de paiement ici
-      // Ajoutez votre logique pour cet événement
-      break;
-    case "payment_intent.created":
-      // Gérer l'événement de création de paiement ici
-      // Ajoutez votre logique pour cet événement
-      break;
+
     default:
       console.log(`Unhandled event type ${event.type}`);
   }

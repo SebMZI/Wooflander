@@ -18,6 +18,7 @@ const authSlice = createSlice({
         state.roles = data.roles;
         state.id = data.id;
         state.sessId = data.sessionId;
+        state.isActive = data.isSubActive;
       }
     },
     logout: (state, action) => {
@@ -25,6 +26,7 @@ const authSlice = createSlice({
       state.id = null;
       state.roles = null;
       state.sessId = null;
+      state.isActive = null;
     },
   },
 });
@@ -35,5 +37,6 @@ export const selectCurrectRole = (state) => state.auth.roles;
 export const selectCurrectToken = (state) => state.auth.token;
 export const selectCurrentId = (state) => state.auth.id;
 export const selectCurrentStripeId = (state) => state.auth.sessId;
+export const selectCurrentActiveSub = (state) => state.auth.isActive;
 
 export default authSlice.reducer;

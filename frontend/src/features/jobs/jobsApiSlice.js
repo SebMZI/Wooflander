@@ -1,4 +1,4 @@
-import apiSlice from "@/api/api/apiSlice";
+import { apiSlice } from "@/api/api/apiSlice";
 
 export const jobsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -12,9 +12,16 @@ export const jobsApiSlice = apiSlice.injectEndpoints({
         url: "/user/sitters",
       }),
     }),
+    getSitterPdfs: builder.query({
+      query: (sitterId) => ({
+        url: `/pdf/${sitterId}/pdf`,
+      }),
+    }),
   }),
 });
 
-export const { useGetAllSittersQuery, useGetAllOwnersQuery } = jobsApiSlice;
-
-
+export const {
+  useGetAllSittersQuery,
+  useGetAllOwnersQuery,
+  useGetSitterPdfsQuery,
+} = jobsApiSlice;

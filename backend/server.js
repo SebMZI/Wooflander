@@ -4,20 +4,43 @@ const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 3500;
 const DbConnect = require("./config/dbConnect");
-const bodyParser = require("body-parser");
 const path = require("path");
+const bodyParser = require("body-parser");
+const jwtVerify = require("./middlewares/jwtVerify");
 
 // Function to connect to DB
 DbConnect();
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://wooflander.vercel.app",
+      "https://wooflander.onrender.com",
+    ],
+    credentials: true,
+  })
+);
+app.options(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://wooflander.vercel.app",
+      "https://wooflander.onrender.com",
+    ],
+    credentials: true,
+  })
+);
 
 app.use(express.raw({ type: "application/json" }));
 app.use("/stripe", require("./routes/stripe"));
 app.use("/images", express.static(path.join(__dirname, "images")));
+app.use("/pdf", require("./routes/pdf"));
 
 app.use(express.json());
+app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use("/auth", require("./routes/auth"));
+//app.use(jwtVerify);
 app.use("/user", require("./routes/user"));
 app.use("/commentary", require("./routes/commentary"));
 

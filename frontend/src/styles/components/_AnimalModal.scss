@@ -4,12 +4,16 @@
   z-index: 1000;
 
   .overlay {
+    position: fixed;
     width: 100vw;
     height: 100vh;
     background: #00000077;
-    z-index: 1; /* La valeur de z-index est inférieure à celle de .animal-modal */
+    z-index: 1;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
-
   .modal-content {
     position: absolute;
     border-radius: 10px;
@@ -24,6 +28,7 @@
       text-align: center;
       font-weight: 400;
       padding: 20px 0;
+      color: #000;
     }
     form {
       display: flex;
@@ -34,18 +39,63 @@
         flex-direction: row;
         label {
           margin-right: 10px;
+          color: #000;
+        }
+        input {
+          background-color: #fff;
+          &:checked {
+            background-color: #f0a37a;
+          }
         }
       }
+      label {
+        color: #000;
+      }
       input {
+        color: #000;
         margin-bottom: 10px;
         margin-top: 5px;
         outline: none;
         border: none;
+        background-color: #fff;
         border-bottom: 1px solid #000;
         &::-webkit-autofill {
           -webkit-box-shadow: 0 0 0 30px white inset;
         }
+        &[type="file"] {
+          padding: 4px 0px;
+          height: auto;
+          &::file-selector-button {
+            margin-right: 20px;
+            border: none;
+            background: #f0a37a;
+            padding: 10px 20px;
+            border-radius: 10px;
+            color: #fff;
+            cursor: pointer;
+          }
+        }
       }
+    }
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .animal-modal {
+    .modal-content {
+      top: 0;
+      left: 26%;
+      z-index: 4;
+    }
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
+  .animal-modal {
+    .modal-content {
+      top: 15%;
+      left: 5%;
+      width: 90%;
     }
   }
 }

@@ -30,6 +30,7 @@ const userModel = mongoose.Schema(
       type: String,
       required: true,
     },
+
     city: {
       type: String,
       required: true,
@@ -63,10 +64,12 @@ const userModel = mongoose.Schema(
         ref: "Animal",
       },
     ],
-    note: {
-      type: Number,
-      default: null,
-    },
+    notes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Rating",
+      },
+    ],
     commentary: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -77,6 +80,12 @@ const userModel = mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Image",
+      },
+    ],
+    pdf: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "pdf",
       },
     ],
     new: {

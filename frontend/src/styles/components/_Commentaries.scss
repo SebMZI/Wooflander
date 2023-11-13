@@ -6,8 +6,9 @@
   justify-content: space-between;
   &-container {
     height: 100%;
-    padding: 10px 0;
-    overflow: scroll;
+    padding: 10px 15px 10px 0px;
+    overflow: auto;
+
     .no-comments {
       font-size: 30px;
 
@@ -20,17 +21,36 @@
     }
     .commentary {
       padding: 10px;
-      border: 1px solid #000;
-      border-radius: 10px;
+      border-bottom: 1px solid #dadce0;
       margin-bottom: 10px;
+      position: relative;
+      &-header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+        height: 100%;
+        margin-bottom: 10px;
+      }
 
       .comment {
         &-title {
           font-size: 16px;
-          margin-bottom: 5px;
+
+          color: #000;
         }
         &-content {
           font-size: 14px;
+          color: #000;
+          width: 100%;
+          min-height: 25px;
+          padding-left: 7px;
+          text-align: justify;
+        }
+        &-date {
+          font-size: 12px;
+          margin-top: 15px;
+          color: rgb(179, 179, 179);
         }
       }
     }
@@ -40,19 +60,70 @@
     padding-top: 20px;
     display: flex;
     flex-direction: column;
-    .btn {
-      width: 40%;
-      margin-left: auto;
-      margin-top: 10px;
-    }
+    position: relative;
     .inp-comment {
-      height: 100px;
+      background-color: #fff;
+      color: #000;
+      height: 85px;
       border-radius: 10px;
       padding: 5px 10px;
       border: 1px solid #000;
       outline: none;
       resize: none;
       font-family: "Inter", sans-serif;
+    }
+    .add-btn {
+      height: 50px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      .msg {
+        color: #f0a37a;
+        font-size: 14px;
+      }
+      .btn {
+        width: 40%;
+        margin-left: auto;
+        margin-top: 10px;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .commentaries {
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+    height: 100%;
+    &-container {
+      height: 375px;
+    }
+    .addCommentary {
+      .inp-comment {
+        height: 80px;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
+  .commentaries {
+    &-container {
+      .no-comments {
+        font-size: 20px;
+      }
+    }
+    .addCommentary {
+      .btn {
+        font-size: 14px;
+      }
+      .inp-comment {
+        height: 60px;
+      }
     }
   }
 }

@@ -4,7 +4,10 @@
   height: 100%;
   overflow: hidden;
   padding-top: 20px;
+
   .SlideCard {
+    overflow: hidden;
+    z-index: 2;
     border-radius: 10px;
     width: 100%;
     height: 100%;
@@ -13,12 +16,13 @@
     top: 0;
     position: absolute;
     transition: opacity 1s;
-    img {
+    .img {
       border-radius: 10px;
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
+
     &--hide {
       opacity: 0;
     }

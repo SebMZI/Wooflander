@@ -8,10 +8,7 @@ module.exports = {
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
   },
-  webp: {
-    preset: "default",
-    quality: 100,
-  },
+
   images: {
     domains: ["wooflander.onrender.com", "localhost"],
     remotePatterns: [

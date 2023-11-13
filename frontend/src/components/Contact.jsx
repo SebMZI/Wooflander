@@ -3,19 +3,21 @@ import React from "react";
 import message from "../assets/message-text.svg";
 import mail from "../assets/mail.svg";
 import phone from "../assets/phone.svg";
+import Link from "next/link";
 
-const Contact = () => {
+const Contact = ({ user }) => {
+  console.log("User Contact", user);
   return (
     <div className="buttons-container">
-      <div className="item">
+      <Link href={`mailto:${user?.email}`} className="item">
         <Image src={mail} className="img" alt="To Mail icon" />
-      </div>
-      <div className="item">
+      </Link>
+      <Link href={`tel:${user?.tel}`} className="item">
         <Image src={phone} className="img" alt="To Phone icon" />
-      </div>
-      <div className="item">
+      </Link>
+      <Link href={"#"} className="item">
         <Image src={message} className="img" alt="To Message Icon" />
-      </div>
+      </Link>
     </div>
   );
 };

@@ -1,5 +1,4 @@
-import apiSlice from "@/api/api/apiSlice";
-
+import { apiSlice } from "@/api/api/apiSlice";
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getUserProfile: builder.query({
@@ -25,8 +24,26 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["User"],
     }),
+    addProfilePicture: builder.mutation({
+      query: (formData) => ({
+        url: `/user/profile/picture/:userId`,
+        method: "POST",
+        body: formData,
+      }),
+      invalidatesTags: ["User"],
+    }),
+    getProfilePic: builder.query({
+      query: (userId) => ({
+        url: `/user/${userId}/getProfilePic`,
+      }),
+      providesTags: ["User"],
+    }),
   }),
 });
 
-export const { useGetUserProfileQuery, usePutUserProfileMutation } =
-  userApiSlice;
+export const {
+  useGetUserProfileQuery,
+  usePutUserProfileMutation,
+  useAddProfilePictureMutation,
+  useGetProfilePicQuery,
+} = userApiSlice;

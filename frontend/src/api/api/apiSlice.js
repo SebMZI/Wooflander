@@ -1,9 +1,10 @@
+import { logout, selectCurrectToken } from "@/features/auth/authSlice";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const apiSlice = createApi({
-  baseQuery: fetchBaseQuery({
-    baseUrl: "https://wooflander.onrender.com",
-  }),
+const baseQuery = fetchBaseQuery({
+  baseUrl: "https://wooflander.onrender.com",
+  credentials: "include",
+
   overrideExisting: false,
   transformRequest: (fetchBaseQueryConfig) => {
     if (
@@ -15,16 +16,55 @@ const apiSlice = createApi({
     }
     return fetchBaseQueryConfig;
   },
-  endpoints: (builder) => ({}),
-  tagTypes: ["animals", "User", "comments"],
-  //   prepareHeaders: (headers, { getState }) => {
-  //     const token = getState().auth.token;
-  //     headers.set("Content-type", "multipart/form-data");
-  //     if (token) {
-  //       headers.set("authorization", `Bearer ${token}`);
-  //     }
-  //     return headers;
-  //   },
+  prepareHeaders: (headers, { getState }) => {
+    const token = getState().auth.token;
+    console.log(token);
+
+    if (token) {
+      console.log("authorization", `Bearer ${token}`);
+      headers.set("Authorization", `Bearer ${token}`);
+    }
+    return headers;
+  },
 });
 
-export default apiSlice;
+const baseQueryWithReauth = async (args, api, extraOptions) => {
+  let result = await baseQuery(args, api, extraOptions);
+
+  if (result?.error?.status === 401 || result?.error?.status === 403) {
+    console.log("Token invalid or expired!");
+    api.dispatch(logout());
+
+    // const refreshResult = await baseQuery(
+    //   { url: "/refresh", method: "POST" },
+    //   api,
+    //   extraOptions
+    // );
+    // console.log("refresh reseult : ", refreshResult.data.token);
+
+    // if (refreshResult?.data) {
+    //   // store the new token
+    //   console.log("New token: ", refreshResult?.data?.token);
+    //   api.dispatch(setNewToken({ token: refreshResult?.data?.token }));
+
+    //   // retry original query with new access token
+    //   result = await baseQuery(args, api, extraOptions);
+    //   console.log(result);
+    // } else {
+    //   if (refreshResult?.error?.status === 403) {
+    //     refreshResult.error.data.message = "Your login has expired.";
+    //     api.dispatch(logOut());
+    //   }
+    //   console.log("Didn't work: ", refreshResult);
+    //   return refreshResult;
+    // }
+  }
+
+  return result;
+};
+
+export const apiSlice = createApi({
+  baseQuery: baseQueryWithReauth,
+  endpoints: (builder) => ({}),
+  tagTypes: ["animals", "User", "comments"],
+});

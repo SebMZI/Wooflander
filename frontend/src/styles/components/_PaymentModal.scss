@@ -25,6 +25,7 @@
       font-weight: 400;
       font-size: 20px;
       position: relative;
+      color: #000;
       &::after {
         content: "";
         width: 20%;
@@ -36,6 +37,7 @@
       }
     }
     .modal-price {
+      color: #000;
       font-size: 60px;
       text-align: center;
       position: relative;
@@ -48,6 +50,7 @@
         color: #000;
       }
       .price-recurence {
+        color: #000;
         font-size: 18px;
         font-weight: 400;
       }

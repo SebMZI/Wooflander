@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { Inter } from "next/font/google";
 import Navbar from "../components/Navbar";
-import dogVideo from "../../public/dog.mp4";
+import dogVideo from "../../public/dog.webm";
 import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -21,9 +21,9 @@ export default function Home() {
       <Navbar />
       <main className="home-main">
         <section className="hero-section">
-          {/* <video autoPlay loop muted playsInline>
+          <video autoPlay loop muted playsInline>
             <source src={dogVideo} type="video/mp4"></source>
-          </video> */}
+          </video>
           <div className="content">
             <h2 className="hero-title">
               Find the Perfect <span className="text-or">Dog</span>sitter for
@@ -39,15 +39,22 @@ export default function Home() {
 
             <div className="btn-container">
               <button className="btn btn-solid">
-                Signup
-                {/* <Link href="/auth/signup">Signup</Link> */}
+                <Link href="/auth/signup">Signup</Link>
               </button>
               <button className="btn btn-light">
-                {/* Login */}
                 <Link href="/auth/login">Login</Link>
               </button>
             </div>
+            <div className="hero-tcu">
+              Take a look at the{" "}
+              <span>
+                <Link href="/tcu">
+                  Terms and Conditions of Use for Wooflander
+                </Link>
+              </span>
+            </div>
           </div>
+
           <div className="overlay"></div>
         </section>
       </main>

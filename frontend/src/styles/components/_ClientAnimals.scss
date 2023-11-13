@@ -10,14 +10,35 @@
   }
   .animals-container {
     overflow-y: auto;
-    margin-bottom: 40px;
+
     height: 100%;
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-column-gap: 20px;
-    grid-row-gap: 60px;
+    grid-row-gap: 20px;
     grid-auto-rows: auto;
     justify-items: center;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .client-animals {
+    .animals-container {
+      grid-template-columns: 1fr 1fr 1fr;
+      margin-bottom: 0;
+    }
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
+  .client-animals {
+    .btn {
+      font-size: 14px;
+    }
+    .animals-container {
+      grid-template-columns: 1fr;
+      gap: 25px;
+    }
   }
 }

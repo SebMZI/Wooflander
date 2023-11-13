@@ -5,7 +5,8 @@ import userReducer from "../features/user/userSlice";
 import stripeReducer from "../features/stripe/stripeSlice";
 import jobsReducer from "../features/jobs/jobsSlice";
 import commentReducer from "../features/commentary/commentarySlice";
-import apiSlice from "./api/apiSlice";
+import { apiSlice } from "./api/apiSlice";
+import menuReducer from "../features/menu/menuSlice";
 
 import {
   persistReducer,
@@ -24,24 +25,16 @@ const authPersistConfig = {
   storage: storage,
 };
 
-const stipePersistConfig = {
-  key: "stripe",
-  storage: storage,
-};
-
 const persistedAuthReducer = persistReducer(authPersistConfig, authReducer);
-const persistedStripeReducer = persistReducer(
-  stipePersistConfig,
-  stripeReducer
-);
 
 const store = configureStore({
   reducer: {
     [apiSlice.reducerPath]: apiSlice.reducer,
+    menu: menuReducer,
     auth: persistedAuthReducer,
     user: userReducer,
     animals: animalsReducer,
-    stripe: persistedStripeReducer,
+    stripe: stripeReducer,
     jobs: jobsReducer,
     commentaries: commentReducer,
   },

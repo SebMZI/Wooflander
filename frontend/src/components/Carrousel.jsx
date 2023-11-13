@@ -1,69 +1,94 @@
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
-import dog from "../assets/dog.webp";
-import dog1 from "../assets/cristian-castillo-73pyV0JJOmE-unsplash.webp";
-import dog2 from "../assets/photo-1575859431352-39e2735a0aab.webp";
-import Link from "next/link";
 
-const Carrousel = () => {
-  const [counter, setCounter] = useState(0);
-  const [toggle, setToggle] = useState(true);
+import Link from "next/link";
+import {
+  useGetAnimalImageQuery,
+  useGetAnimalsQuery,
+} from "@/features/animals/animalsApiSlice";
+import {
+  selectCurrentAnimals,
+  setAnimals,
+} from "@/features/animals/animalsSlice";
+import { useDispatch, useSelector } from "react-redux";
+
+const Carrousel = ({ user }) => {
   const [index, setIndex] = useState(0);
-  const classImg = useRef(null);
-  const images = [dog, dog1, dog2];
+  const [animalImages, setAnimalImages] = useState([]);
+  const dispatch = useDispatch();
+  const animalsArray = useSelector(selectCurrentAnimals);
+
+  const [animIdx, setAnimIdx] = useState(0);
+
+  console.log(user?._id);
+
+  const { data: getAnimals } = useGetAnimalsQuery(user?._id);
+  dispatch(setAnimals(getAnimals));
+  const animals = useSelector(selectCurrentAnimals);
+
+  const { data: getAnimalImage } = useGetAnimalImageQuery(animals[index]?._id);
+  console.log(getAnimalImage);
+
+  // Récupérer l'id de l'utilisateur qu'on regarde
+  // Récupérer tous ses animaux
+  // Récupérer les images des animaux
+  // Display les animaux dans un carrousel
+
   const nextCard = () => {
-    // Ajout d'une verification
-    if (images !== undefined) {
-      setTimeout(
-        // Ajout d'un -1 à la methode byDateDesc.length
-        () => setIndex(index < images.length - 1 ? index + 1 : 0),
-        5000
-      );
-    }
+    setIndex((prevIndex) => (prevIndex + 1) % animals.length);
   };
+
   useEffect(() => {
-    nextCard();
-  });
+    if (animals.length >= 1) {
+      const interval = setInterval(nextCard, 5000);
+
+      return () => {
+        clearInterval(interval);
+      };
+    }
+  }, []);
 
   return (
     <div className="SlideCardList">
-      {images?.map((event, idx) => (
+      {animals.length < 1 ? (
         <Link href={"#"}>
-          <div key={idx}>
-            <div
-              className={`SlideCard SlideCard--${
-                index === idx ? "display" : "hide"
-              }`}
-            >
-              <img src={event.src} alt="forum" />
-            </div>
-            {/* <div className="SlideCard__descriptionContainer">
-              <div className="SlideCard__description">
-                <h3>{event.title}</h3>
-                <p>{event.description}</p>
-                <div>{getMonth(new Date(event.date))}</div>
-              </div>
-            </div>
-          </div>
-          <div className="SlideCard__paginationContainer">
-            <div className="SlideCard__pagination">
-              {byDateDesc.map((_, radioIdx) => (
-                <input
-                  // Modification key par _.title
-                  key={`${_.title}`}
-                  type="radio"
-                  name="radio-button"
-                  // remplace idx par index
-                  checked={index === radioIdx}
-                  // Ajout readOnly
-                  readOnly
-                />
-              ))}
-            </div>
-          </div> */}
-          </div>
+          <Image
+            src={getAnimalImage?.img}
+            alt={`Dog image for ${animals?.name}`}
+            layout="fill"
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 30vw, 20vw"
+            priority={true}
+            className="img"
+          />
         </Link>
-      ))}
+      ) : (
+        animals &&
+        animals?.map((anim, idx) => {
+          return (
+            <Link href={"#"} key={idx}>
+              <div
+                className={`SlideCard SlideCard--${
+                  index === idx ? "display" : "hide"
+                }`}
+              >
+                {getAnimalImage ? (
+                  <Image
+                    src={getAnimalImage.img}
+                    alt={`Dog image for ${animals?.name}`}
+                    layout="fill"
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 30vw, 20vw"
+                    priority={true}
+                    className="img"
+                  />
+                ) : (
+                  <p>Loading...</p>
+                )}
+              </div>
+            </Link>
+          );
+        })
+      )}
+      {!animals && <p>Loading...</p>}
     </div>
   );
 };

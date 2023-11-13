@@ -1,21 +1,25 @@
 import React from "react";
 import Image from "next/image";
-import image from "../assets/dog.webp";
+import image from "../assets/dog-min.webp";
 import badge from "../assets/new.png";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useGetProfilePicQuery } from "@/features/user/userApiSlice";
 
 const CardJobs = ({ data }) => {
   const pathname = usePathname();
+
+  const { data: profilePicture } = useGetProfilePicQuery(data._id);
+
   return (
     <Link href={`${pathname}/${data._id}`} className="card-link">
       <article className="card-jobs">
         <Image
-          src={image}
+          src={profilePicture?.img ?? image}
           layout="fill"
           objectFit="cover"
           className="img"
-          alt={`Image from ${data.name}`}
+          alt="Dog"
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 30vw, 20vw"
           priority={true}
         />

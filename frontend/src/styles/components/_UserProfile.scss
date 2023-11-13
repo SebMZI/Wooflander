@@ -19,6 +19,7 @@
     display: flex;
     justify-content: space-between;
     gap: 40px;
+    padding-bottom: 50px;
     .profile-container {
       width: 50%;
       .profile-content {
@@ -26,20 +27,56 @@
         flex-direction: column;
         label {
           font-size: 18px;
+          color: #000;
         }
         input {
+          color: #000;
           height: 30px;
           width: 70%;
           font-size: 18px;
           border: none;
           border-bottom: 1px solid #000;
+          background-color: #fff;
           margin: 5px 0 30px;
           outline: none;
           &:-webkit-autofill {
             -webkit-box-shadow: 0 0 0 30px white inset;
           }
           &:disabled {
-            background: none;
+            background-color: #fff;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
+  .user-profile {
+    .btn {
+      font-size: 14px;
+    }
+    .btn-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-left: 0;
+      .btn {
+        margin-left: 0;
+        font-size: 14px;
+      }
+    }
+    .client-profile {
+      margin-top: 20px;
+      flex-direction: column;
+      gap: 0;
+      .profile-container {
+        width: 100%;
+        .profile-content {
+          width: 100%;
+          input {
+            width: inherit;
           }
         }
       }

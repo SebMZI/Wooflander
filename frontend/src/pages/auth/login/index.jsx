@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const index = () => {
+const Index = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [username, setUsername] = useState("");
@@ -22,14 +22,16 @@ const index = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log(username, password);
     if (!username || !password) {
       return setMsg("All fields are required");
     }
 
     try {
       const result = await login({ username: username, password: password });
-      console.log(result);
+      if (result?.error?.status === 400 || result?.error?.status === 404) {
+        return setMsg(result?.error?.data?.message);
+      }
+
       dispatch(setCredentials({ result }));
       if (token) {
         if (currentRole === 2503) {
@@ -39,13 +41,15 @@ const index = () => {
         }
       }
     } catch (err) {
-      console.log(err);
-      return setMsg(err.message);
+      console.log("Error ", err);
+      if ((err.status = 400)) {
+        return setMsg(err?.data?.message);
+      }
+      return setMsg(err?.message);
     }
   };
 
   useEffect(() => {
-    console.log("token: ", token, "Roles: ", currentRole);
     const roleValue = currentRole ? Object.values(currentRole)[0] : null;
     if (token) {
       if (roleValue === 2503) {
@@ -54,7 +58,15 @@ const index = () => {
         router.push("/dashboard/Sitter ");
       }
     }
-  }, [token, currentRole]);
+  }, [token, currentRole, router]);
+
+  useEffect(() => {
+    if (msg) {
+      setTimeout(() => {
+        setMsg("");
+      }, 3000);
+    }
+  }, [msg]);
 
   return (
     <>
@@ -81,7 +93,7 @@ const index = () => {
               id="password"
               onChange={(e) => setPassword(e.target.value)}
             />
-            {msg && <p>{msg}</p>}
+            {msg && <p className="msg">{msg}</p>}
             <button type="submit" className="btn btn-solid">
               Submit
             </button>
@@ -96,4 +108,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;
